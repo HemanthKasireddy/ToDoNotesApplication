@@ -13,12 +13,18 @@ xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springf
 
 <!-- Configures the @Controller programming model -->
 <mvc:annotation-driven />
+<mvc:resources location="/template/" mapping="/template/**"/>
+<mvc:resources location="/scripts/" mapping="/scripts/**"/>
+<mvc:resources location="/services/" mapping="/services/**"/>
+<mvc:resources location="/controller/" mapping="/controller/**"/>
+<mvc:resources location="/bower_components/" mapping="/bower_components/**"/>
 
 <!-- misc -->
 <!-- <bean id="transactionManager"
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean> -->
+	
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
