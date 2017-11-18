@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bridgeit.toDoNotes.model.Response;
 import com.bridgeit.toDoNotes.model.User;
 import com.bridgeit.toDoNotes.services.IMailerService;
 import com.bridgeit.toDoNotes.services.UserServiceImpl;
@@ -23,82 +24,84 @@ import com.bridgeit.toDoNotes.tokens.ITokens;
 @RestController
 public class UserLogIn {
 
-	private  static Logger logger = Logger.getLogger(UserLogIn.class);
+	private static Logger logger = Logger.getLogger(UserLogIn.class);
 
 	@Autowired
 	private UserServiceImpl userServiceImpl;
 	@Autowired
-	private ITokens iTokens; 
+	private ITokens iTokens;
 	@Autowired
 	private IMailerService iMailerService;
 
-
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity<String> logInUser(@RequestBody User userDetails,HttpSession session) {
+	public Response logInUser(@RequestBody User userDetails, HttpSession session) {
 
+		Response response = new Response();
 		logger.debug("inside Login");
-		User user=userServiceImpl.getUser(userDetails.getEmail(),userDetails.getPassword());
+		User user = userServiceImpl.getUser(userDetails.getEmail(), userDetails.getPassword());
 
-		if(user!=null) {
+		if (user != null) {
 
-			if(user.isActivated()) {
+			if (user.isActivated()) {
 
-				String token=iTokens.generateToken("LogIn", String.valueOf(user.getUserId()));
+				String token = iTokens.generateToken("LogIn", String.valueOf(user.getUserId()));
 
-				/*HttpSession session=((HttpServletRequest) request).getSession();*/
-				/*					System.out.println("####### Usre id is: "+user.getUserId()+" user name is "+user.getEmail());
-				 */					
-				//session.setAttribute("Name", user);
-
-				return  ResponseEntity.status(HttpStatus.CREATED).body("User log in succesfully with token of  : "+token );
+				/* HttpSession session=((HttpServletRequest) request).getSession(); */
+				/*
+				 * System.out.println("####### Usre id is: "+user.getUserId()+" user name is "
+				 * +user.getEmail());
+				 */
+				// session.setAttribute("Name", user);
+				response.setStatus(1);
+				response.setMessage(token);
+				return response;
 
 			} else {
-
-				return ResponseEntity.status(HttpStatus.FORBIDDEN).body("user is not verified please click on registration link ") ;
-
+				response.setStatus(-1);
+				response.setMessage("user is not activated");
+				return response;
 			}
-
 
 		} else {
 
-			return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("user email or password are wrong");
-
+			response.setStatus(-2);
+			response.setMessage("pasword is in correct");
+			return response;
 		}
 
 	}
 
-
 	@RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
-	public ResponseEntity<String> forgotPassword(@RequestBody User userDetails,HttpServletRequest request) {
+	public ResponseEntity<String> forgotPassword(@RequestBody User userDetails, HttpServletRequest request) {
 
-		User user=userServiceImpl.getUserByEmailId(userDetails.getEmail());
+		User user = userServiceImpl.getUserByEmailId(userDetails.getEmail());
 
-		String token=iTokens.generateToken("ForgotPassword", String.valueOf(user.getUserId()));
+		String token = iTokens.generateToken("ForgotPassword", String.valueOf(user.getUserId()));
 
-		String url=String.valueOf(request.getRequestURL());
+		String url = String.valueOf(request.getRequestURL());
 
-		url=url.substring(0, url.lastIndexOf("/"))+"/resetPassword/"+token;
+		url = url.substring(0, url.lastIndexOf("/")) + "/resetPassword/" + token;
 
 		logger.debug(url);
 
-		iMailerService.sendMail(userDetails.getEmail(),url);
+		iMailerService.sendMail(userDetails.getEmail(), url);
 
-		return  ResponseEntity.status(HttpStatus.CREATED).body("link is sent your mail ");
+		return ResponseEntity.status(HttpStatus.CREATED).body("link is sent your mail ");
 
 	}
 
-
 	@RequestMapping(value = "/resetPassword/{password}", method = RequestMethod.POST)
-	public ResponseEntity<String> resetPassword(@PathVariable("password") String password,HttpServletRequest request){		
+	public ResponseEntity<String> resetPassword(@PathVariable("password") String password, HttpServletRequest request) {
 
 		Enumeration<String> headerNames = request.getHeaderNames();
-		String token=null; ;
+		String token = null;
+		;
 
 		while (headerNames.hasMoreElements()) {
 
 			String key = (String) headerNames.nextElement();
 
-			if(key.equals("token")) {
+			if (key.equals("token")) {
 
 				token = request.getHeader(key);
 				break;
@@ -106,17 +109,17 @@ public class UserLogIn {
 			}
 		}
 
-		long id=Long.valueOf(iTokens.verifyToken(token));
+		long id = Long.valueOf(iTokens.verifyToken(token));
 
-		logger.debug("token id is "+ id);
+		logger.debug("token id is " + id);
 
-		if(id>0 ) {
+		if (id > 0) {
 
-			User user=userServiceImpl.getUserById(id);
+			User user = userServiceImpl.getUserById(id);
 
-			if(user!=null){
+			if (user != null) {
 
-				if(userServiceImpl.updateUserPassword(password,user.getEmail())){
+				if (userServiceImpl.updateUserPassword(password, user.getEmail())) {
 
 					return ResponseEntity.ok("password changed");
 
@@ -138,4 +141,3 @@ public class UserLogIn {
 	}
 
 }
-

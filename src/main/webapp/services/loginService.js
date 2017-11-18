@@ -1,7 +1,7 @@
 /**
  * 
  */
-var ToDo = angular.module('ToDo')
+var ToDo = angular.module('ToDo');
 
 ToDo.factory('loginService',function($http,$location){
 	// in the form of json object from login controller  

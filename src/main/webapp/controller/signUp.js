@@ -2,23 +2,22 @@
  * 
  */
 var ToDo = angular.module("ToDo")
-.controller("loginController", function($scope,loginService,$state) {
+.controller("signUp", function($scope,signUpService,$state) {
 
 	$scope.logInUser = function() {
-		var user = loginService.loginUser($scope.user ,$scope.error) ;
+		var user = signUpService.logInUser($scope.success ,$scope.error) ;
 			user.then(function(response) {
-				console.log(response.data.token);
-				localStorage.setItem('token',response.data.token);
+				console.log(response.data.responseMessage);
+				//localStorage.setItem('token',response.data.responseMessage);
 				console.log("your log in succesfully ");
-				$state.go('home');
-				//$location.path('home');
+				$state.go('login');
 			} ,function(response){
 
 				if(response.status==409) {
 
 					$scope.error=response.data.responseMessage;
 
-				}else {
+				} else {
 
 					console.log("log in fail");
 					$scope.error="Enter valid data";
