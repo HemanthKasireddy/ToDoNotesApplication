@@ -21,7 +21,7 @@ public class User {
 	private String confirmPassword;
 	private boolean activated;	
 	private List<Notes> notes;
-
+public User() {}
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="userId")

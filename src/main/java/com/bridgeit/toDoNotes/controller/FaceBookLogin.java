@@ -8,14 +8,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bridgeit.toDoNotes.model.Response;
 import com.bridgeit.toDoNotes.model.User;
 import com.bridgeit.toDoNotes.services.UserServiceImpl;
 import com.bridgeit.toDoNotes.socialLogging.FaceBookConnection;
+import com.bridgeit.toDoNotes.tokens.TokenImpl;
 import com.fasterxml.jackson.databind.JsonNode;
 
 @RestController
@@ -29,7 +29,7 @@ public class FaceBookLogin {
 	private UserServiceImpl userServiceImpl;
 
 	@RequestMapping(value="/logInWithFaceBook")
-	public void googleConnection(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void facebookConnection(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		String unid=UUID.randomUUID().toString();
 		request.getSession().setAttribute("STATE", unid);
@@ -40,8 +40,8 @@ public class FaceBookLogin {
 		response.sendRedirect(faceBookLogInURL);
 	}
 	@RequestMapping(value="/connectFaceBook")
-	public ResponseEntity<User> redirectFromGoogle(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+	public void redirectFromfacebook(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		Response myResponse=new Response();
 		String sessionState = (String) request.getSession().getAttribute("STATE");
 		String googlestate = request.getParameter("state");
 
@@ -73,11 +73,12 @@ public class FaceBookLogin {
 		User user = userServiceImpl.getUserByEmailId(profile.get("email").asText());
 
 		logger.debug("fb img "+ profile.get("picture").get("data").get("url").asText());
-
+		TokenImpl tokenImpl=new TokenImpl();
 		// get user profile
+		
 		if (user == null) {
 
-			System.out.println(" user is new to our db");
+			logger.debug(" user is new to our db");
 
 			user = new User();
 
@@ -85,13 +86,18 @@ public class FaceBookLogin {
 			user.setEmail(profile.get("email").asText());
 			user.setActivated(true);
 			userServiceImpl.insertUser(user);
-			//response.sendRedirect("/home");
+			User user1 = userServiceImpl.getUserByEmailId(profile.get("email").asText());
+			String token=tokenImpl.generateToken("login",String.valueOf(user1.getUserId()));
 
-			return new ResponseEntity<User>(user,HttpStatus.CREATED);
-
+			myResponse.setResponseMessage(token);
+			response.sendRedirect("http://localhost:8080/ToDoNotesApp/#!/home");
 		} else {
-			//response.sendRedirect("/home");
-			return new ResponseEntity<User>(user,HttpStatus.CONFLICT);
+			String token=tokenImpl.generateToken("login",String.valueOf(user.getUserId()));
+			logger.debug(" user is already existin our db");
+			myResponse.setResponseMessage(token);
+			
+			response.sendRedirect("http://localhost:8080/ToDoNotesApp/#!/home");
+
 		}
 
 	}

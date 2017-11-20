@@ -7,8 +7,8 @@ var ToDo = angular.module("ToDo")
 	$scope.logInUser = function() {
 		var user = loginService.loginUser($scope.user ,$scope.error) ;
 			user.then(function(response) {
-				console.log(response.data.token);
-				localStorage.setItem('token',response.data.token);
+				console.log(response.headers("Authorazation"));
+				localStorage.setItem('token',response.headers("Authorazation"));
 				console.log("your log in succesfully ");
 				$state.go('home');
 				//$location.path('home');
@@ -18,8 +18,8 @@ var ToDo = angular.module("ToDo")
 
 					$scope.error=response.data.responseMessage;
 
-				}else {
-
+				} else {
+					
 					console.log("log in fail");
 					$scope.error="Enter valid data";
 

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bridgeit.toDoNotes.model.Response;
 import com.bridgeit.toDoNotes.model.User;
 import com.bridgeit.toDoNotes.services.UserServiceImpl;
 import com.bridgeit.toDoNotes.socialLogging.GoogleConnection;
@@ -42,8 +43,8 @@ public class GoogleLogIn {
 	}
 
 	@RequestMapping(value="/connectGoogle")
-	public ResponseEntity<User> redirectFromGoogle(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+	public void redirectFromGoogle(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		Response myResponse=new Response();
 		String sessionState = (String) request.getSession().getAttribute("STATE");
 		String googlestate = request.getParameter("state");
 
@@ -96,15 +97,14 @@ public class GoogleLogIn {
 			//inserting a user details in to database 
 			userServiceImpl.insertUser(user);
 
-			//response.sendRedirect("/home");
-
-			return new ResponseEntity<User>(user,HttpStatus.CREATED);
+			myResponse.setResponseMessage(googleaccessToken);
+			response.sendRedirect("http://localhost:8080/ToDoNotesApp/#!/home");
 
 		} else {
+			logger.debug(" user is already existin our db");
 
-			//response.sendRedirect("/home");
-
-			return new ResponseEntity<User>(user,HttpStatus.CONFLICT);
+			myResponse.setResponseMessage(googleaccessToken);
+			response.sendRedirect("http://localhost:8080/ToDoNotesApp/#!/home");
 
 		}
 

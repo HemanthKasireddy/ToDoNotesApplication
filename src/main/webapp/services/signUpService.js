@@ -4,14 +4,14 @@
 var ToDo = angular.module('ToDo')
 				  .factory('signUpService',function($http,$location){
 	// in the form of json object from login controller  
-						var signup ;
+						var signup={} ;
 						
-						signup.signupUser = function(success) {
+						signup.signupuser = function(user) {
 						
 							return $http({
 								method :"POST",
-								url :'login',
-								data : success
+								url :'register',
+								data : user
 							});
 						}
 						

@@ -16,14 +16,24 @@ var ToDo=angular.module('ToDo', ['ui.router','ngMaterial', 'ngAnimate', 'ngAria'
 							
 							url : '/signup',
 							templateUrl : 'template/signup.html',
-							controller : 'register'
+							controller : 'signUpController'
 						
 						});
 						$stateProvider.state('home', {
 							url : '/home',
 							templateUrl : 'template/home.html'
 						});
-				
+						$stateProvider.state('forgotPassword', {
+							url : '/forgotPassword',
+							templateUrl : 'template/ForgotPassword.html',
+							controller : 'forgotPasswordController'
+						});
+						
+						$stateProvider.state('resetPassword', {
+							url : '/resetPassword',
+							templateUrl : 'template/ResetPassword.html',
+							controller : 'resetPasswordController'
+						});
 						$urlRouterProvider.otherwise('login');
 					
 				}]);

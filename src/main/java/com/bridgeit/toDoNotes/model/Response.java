@@ -2,22 +2,14 @@ package com.bridgeit.toDoNotes.model;
 
 public class Response {
 
-	String message;
-	int status;
+	String responseMessage;
 	
 
-	public String getMessage() {
-		return message;
+	public String getResponseMessagee() {
+		return responseMessage;
 	}
-	public void setMessage(String message) {
-		this.message = message;
+	public void setResponseMessage(String responseMessage) {
+		this.responseMessage =responseMessage;
 	}
-	public int getStatus() {
-		return status;
-	}
-	public void setStatus(int status) {
-		this.status = status;
-	}
-	
 	
 }

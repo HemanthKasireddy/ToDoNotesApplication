@@ -3,8 +3,10 @@ package com.bridgeit.toDoNotes.controller;
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,9 +36,9 @@ public class UserLogIn {
 	private IMailerService iMailerService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public Response logInUser(@RequestBody User userDetails, HttpSession session) {
+	public ResponseEntity<Response> logInUser(@RequestBody User userDetails, HttpSession session, HttpServletResponse response) {
 
-		Response response = new Response();
+		Response myResponse = new Response();
 		logger.debug("inside Login");
 		User user = userServiceImpl.getUser(userDetails.getEmail(), userDetails.getPassword());
 
@@ -46,27 +48,19 @@ public class UserLogIn {
 
 				String token = iTokens.generateToken("LogIn", String.valueOf(user.getUserId()));
 
-				/* HttpSession session=((HttpServletRequest) request).getSession(); */
-				/*
-				 * System.out.println("####### Usre id is: "+user.getUserId()+" user name is "
-				 * +user.getEmail());
-				 */
-				// session.setAttribute("Name", user);
-				response.setStatus(1);
-				response.setMessage(token);
-				return response;
+				response.setHeader("Authorazation",token);
+				myResponse.setResponseMessage("log in sucess");
+				return ResponseEntity.status(HttpStatus.ACCEPTED).body( myResponse);
 
 			} else {
-				response.setStatus(-1);
-				response.setMessage("user is not activated");
-				return response;
+				myResponse.setResponseMessage("user is not activated");
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(myResponse);
 			}
 
 		} else {
 
-			response.setStatus(-2);
-			response.setMessage("pasword is in correct");
-			return response;
+			myResponse.setResponseMessage("pasword is in correct");
+			return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(myResponse);
 		}
 
 	}
@@ -90,12 +84,12 @@ public class UserLogIn {
 
 	}
 
-	@RequestMapping(value = "/resetPassword/{password}", method = RequestMethod.POST)
-	public ResponseEntity<String> resetPassword(@PathVariable("password") String password, HttpServletRequest request) {
+	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
+	public ResponseEntity<String> resetPassword(@RequestBody User userDetails, String password, HttpServletRequest request) {
 
 		Enumeration<String> headerNames = request.getHeaderNames();
 		String token = null;
-		;
+		
 
 		while (headerNames.hasMoreElements()) {
 
@@ -119,7 +113,7 @@ public class UserLogIn {
 
 			if (user != null) {
 
-				if (userServiceImpl.updateUserPassword(password, user.getEmail())) {
+				if (userServiceImpl.updateUserPassword(userDetails.getPassword(), user.getEmail())) {
 
 					return ResponseEntity.ok("password changed");
 

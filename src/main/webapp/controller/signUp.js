@@ -2,14 +2,14 @@
  * 
  */
 var ToDo = angular.module("ToDo")
-.controller("signUp", function($scope,signUpService,$state) {
+.controller("signUpController", function($scope,signUpService,$state) {
 
-	$scope.logInUser = function() {
-		var user = signUpService.logInUser($scope.success ,$scope.error) ;
+	$scope.registeringUser = function() {
+		var user = signUpService.signupuser($scope.user  ,$scope.error) ;
 			user.then(function(response) {
 				console.log(response.data.responseMessage);
 				//localStorage.setItem('token',response.data.responseMessage);
-				console.log("your log in succesfully ");
+				console.log(" succesfully registration complited ");
 				$state.go('login');
 			} ,function(response){
 
@@ -19,7 +19,7 @@ var ToDo = angular.module("ToDo")
 
 				} else {
 
-					console.log("log in fail");
+					console.log("registration  fail");
 					$scope.error="Enter valid data";
 
 				}

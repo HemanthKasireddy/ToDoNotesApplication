@@ -1,47 +1,48 @@
-<md-content layout-padding="layout-padding">
-<md-card Style="width:340">
-	<md-content-card class="md-padding" layout-xs="column" layout="row">
-	
-	<div flex-xs flex-gt-xs="50" layout="column">
-		<md-card-content style="text-align: center;">
+<div layout="row" layout-align="center center" >
 
-			<h2>Sign in</h2>
-			<h4>to continue to My App</h4>
+<md-content layout-padding="layout-padding"> 
+	<md-card style="width:350px;height:600px">
+		<md-content-card class="md-padding" layout-xs="column" layout="row">
 
-		</md-card-content>
-		<form class="form-signin">
+			<div flex-xs flex-gt-xs="50" layout="column" layout-align="center">
+				<md-card-content style="text-align: center;">
 
-				<div>
+					<h2>Sign in</h2>
+					<h4>to continue to My App</h4>
+
+				</md-card-content>
 				
-					<md-input-container> 
+				<form class="form-signin">
 
-						<label>Email</label>
-						<input ng-model="user.email" required>
-					</md-input-container>
-				
-				</div>
+					<div>
 
-				<div>
+						<md-input-container> 
+							<label>Email</label> 
+							<input ng-model="user.email" required>
+						 </md-input-container>
+					</div>
 
-					<md-input-container> 
-						
-						<label> password </label> 
-				        <input type="password" ng-model="user.password" name="password" required> 
-				     </md-input-container>
-				</div>
+					<div>
 
-				<div>
-						<span><md-button class="md-raised" type="submit" ng-click="logInUser()">LogIn</md-button>
-						<md-button class="md-raised" ui-sref="signup">Register</md-button></span>
-				</div>
+						<md-input-container> 
+							<label> password </label> 
+							<input type="password" ng-model="user.password" name="password" required>
+						</md-input-container>
+					</div>
 
-	</form>
+					<div>
+						<span>
+							<md-button class="md-raised md-primary" type="submit" ng-click="logInUser()"> LogIn </md-button> 
+							<md-button class="md-raised md-primary" ui-sref="signup">Register</md-button>
+						</span>
+					</div>
 
-	
-		
-		
-</div>
-<!-- /card-container -->
-</md-content-card>
-</md-card>
+				</form>
+			<md-button class="md-raised md-warn" ng-href="logInWithGoogle">Google</md-button>
+			<md-button class="md-raised md-warn" ng-href="logInWithFaceBook">Facebook</md-button>
+			<a ui-sref="forgotPassword" >forgot password</a>
+			</div>
+		</md-content-card> 
+	</md-card> 
 </md-content>
+</div>

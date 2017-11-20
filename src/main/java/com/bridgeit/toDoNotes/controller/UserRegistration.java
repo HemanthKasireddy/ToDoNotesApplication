@@ -1,7 +1,11 @@
 package com.bridgeit.toDoNotes.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.http.HttpResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bridgeit.toDoNotes.model.Response;
 import com.bridgeit.toDoNotes.model.User;
 import com.bridgeit.toDoNotes.services.IMailerService;
 import com.bridgeit.toDoNotes.services.UserServiceImpl;
@@ -37,8 +42,8 @@ public class UserRegistration {
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 
-	public ResponseEntity<String> registeringUser(@RequestBody User user,HttpServletRequest request) {
-
+	public ResponseEntity<Response> registeringUser(@RequestBody User user,HttpServletRequest request ,HttpServletResponse response) {
+		Response myResponse=new Response();
 		if(userRegistrationValidations.validDetails(user)) {
 
 			long id=userServiceImpl.insertUser(user);
@@ -54,24 +59,28 @@ public class UserRegistration {
 				user.setActivated(false);
 
 				iMailerService.sendMail(user.getEmail(),url);
-
-				return  ResponseEntity.status(HttpStatus.CREATED).body("confirmation link is send your mail id to click to activate your account: ");
+				myResponse.setResponseMessage(" registered successfully ");
+				
+			
+				return  ResponseEntity.status(HttpStatus.ACCEPTED).body( myResponse) ;
 
 			} else {
+				myResponse.setResponseMessage(" bad request");
 
-				return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("BAD_REQUEST");
+				return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body( myResponse);
 
 			}
 
 		} else {
+			myResponse.setResponseMessage("validations fails");
+			return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body( myResponse);
 
-			return  ResponseEntity.status(HttpStatus.FORBIDDEN).body("validations fails");
 		}
 	}
 
 	@RequestMapping(value = "/activate/{token:.+}", method = RequestMethod.GET)
 
-	public ResponseEntity<String> activateUser(@PathVariable("token") String token){		
+	public ResponseEntity<String> activateUser(@PathVariable("token") String token,HttpServletResponse response) throws IOException{		
 
 		long id=Long.valueOf(iTokens.verifyToken(token));
 
@@ -82,7 +91,7 @@ public class UserRegistration {
 			if(user!=null){
 
 				if(userServiceImpl.updateUser(user)){
-
+					response.sendRedirect("http://localhost:8080/ToDoNotesApp/#!/login");
 					return ResponseEntity.ok("User Activated");
 
 				} else {
