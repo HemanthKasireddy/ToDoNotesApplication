@@ -1,5 +1,63 @@
 <div>
-<h1> Welcome to home page</h1>
+	<top-nav-bar></top-nav-bar>
+</div>
+<div>
+	<side-nav-bar></side-nav-bar>
 
 </div>
+<div>
+      < <div layout="row" layout-wrap flex id="sortable"  >
+        <div ng-repeat="note in notes" flex="{{ notesView==='list' ? 90 : 30}}"  >
+          <md-card flex ng-mouseover="x=true" ng-mouseleave="x=false" style="background-color:{{note.color}};">
+            <md-card-title>
+              <md-card-title-text ng-click="updateNote(note,$event)">
+                <span class="md-headline" ng-bind-html="note.title"></span>
+                <span class="md-subhead" ng-bind-html="note.body"></span>
+              </md-card-title-text>
+              <md-button class="md-icon-button" aria-label="Share" ng-click="doPinNote(note)" ng-show="x">
+                <md-icon md-svg-icon="../assets/images/pin-icon.svg"></md-icon>
+              </md-button>
+            </md-card-title>
+            <md-card-content layout="row" layout-align="space-between">
+              <div ng-if="hasLabelInNote(note)" layout="row" layout-wrap flex>
+                <div ng-repeat="showLabelOfNote in showLabelsOfNote">
+                  <div ng-if="showHasLabelInNote(note, showLabelOfNote)" style="background:	#A9A9A9; margin:3px; padding: 5px;" ng-mouseover="y=true" ng-mouseleave="y=false">
+                    <span>{{showLabelOfNote.label}}</span>
+                    <span ng-show="y" ng-click="deleteLabelFromNote(note, showLabelOfNote)">x</span>
+                  </div>
+               <!--  </div>
+              </div> -->
+              <md-chips ng-if="note.remainder" ng-mouseover="deleteRemainderOption=true" ng-mouseleave="deleteRemainderOption=false">
+                <md-chip style="opacity: 0.5;
+    filter: alpha(opacity=50);">
+                  <md-icon style="height: 14px; width: 24px; min-height: 9px; min-width: 10px;" md-svg-src="../assets/images/clock.svg"></md-icon>
+                  {{note.remainder.date | date : "MMM d"}}, {{note.remainder.time}}
+                  <!-- Today, {{note.remainder.time}} -->
+                  <md-button class="md-icon-button" aria-label="Settings" ng-click="deleteNoteRemainder(note)" ng-show="deleteRemainderOption">
+                    <md-icon style="height: 14px; width: 24px; min-height: 9px; min-width: 10px;" md-svg-icon="../assets/images/cancel.svg"></md-icon>
+                  </md-button>
+                </md-chip>
+              </md-chips>
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="end center">
+              <md-button style="min-width: 0px;"></md-button>
+              <md-menu ng-show="x">
+                <md-button style="min-width:30px;" ng-click="$mdMenu.open($event)">
+                  <md-icon md-svg-src="../assets/images/reminder-icon.svg"></md-icon>
+                </md-button>
+                <md-menu-content>
+                  <md-menu-item>
+                    <md-button ng-click="updateLaterTodayTime(note)">Later Today 20:00</md-button>
+                  </md-menu-item>
+                  <md-menu-item>
+                    <md-button ng-click="updateTomorrowTime(note)">Tomorrow 8:00</md-button>
+                  </md-menu-item>
+                  <md-menu-item>
+                    <md-button ng-click="showUpdateDateTimePickMenu($event, note)">Pick Date and Time</md-button>
+                  </md-menu-item>
+                </md-menu-content>
+              </md-menu>
 
+
+
+</div>

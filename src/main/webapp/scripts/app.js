@@ -25,13 +25,13 @@ var ToDo=angular.module('ToDo', ['ui.router','ngMaterial', 'ngAnimate', 'ngAria'
 						});
 						$stateProvider.state('forgotPassword', {
 							url : '/forgotPassword',
-							templateUrl : 'template/ForgotPassword.html',
+							templateUrl : 'template/forgotPassword.html',
 							controller : 'forgotPasswordController'
 						});
 						
 						$stateProvider.state('resetPassword', {
 							url : '/resetPassword',
-							templateUrl : 'template/ResetPassword.html',
+							templateUrl : 'template/resetPassword.html',
 							controller : 'resetPasswordController'
 						});
 						$urlRouterProvider.otherwise('login');

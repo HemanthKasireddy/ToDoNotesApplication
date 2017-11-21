@@ -16,7 +16,7 @@ ToDo.factory('forgotPasswordService',function($http,$location){
 		});
 	}
 	
-	return forgotpassword;
+	return password;
 
 });
 ToDo.factory('resetPasswordService',function($http,$location){
@@ -32,7 +32,7 @@ ToDo.factory('resetPasswordService',function($http,$location){
 		});
 	}
 	
-	return forgotpassword;
+	return password;
 
 });
 

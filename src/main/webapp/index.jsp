@@ -11,7 +11,7 @@
 <div ui-view> </div>
 	
 </body>
-<script src="bower_components/angular/angular.js" type="text/javascript">
+	<script src="bower_components/angular/angular.js" type="text/javascript">
 	</script>
 	
 	<script src="bower_components/angular-animate/angular-animate.js" type="text/javascript">
@@ -34,5 +34,13 @@
 	<script type="text/javascript" src="controller/signUp.js">
 	</script>
 	<script type="text/javascript" src="services/signUpService.js">
+	</script>
+	<script type="text/javascript" src="controller/ForgotPassword.js">
+	</script>
+	<script type="text/javascript" src="services/forgotPasswordService.js">
+	</script>
+	<script type="text/javascript" src="directives/homeDirectives.js">
+	</script>
+	<script type="text/javascript" src="controller/homeController.js">
 	</script>
 </html>

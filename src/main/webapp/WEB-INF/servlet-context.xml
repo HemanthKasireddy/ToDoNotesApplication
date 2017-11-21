@@ -17,6 +17,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springf
 <mvc:resources location="/scripts/" mapping="/scripts/**"/>
 <mvc:resources location="/services/" mapping="/services/**"/>
 <mvc:resources location="/controller/" mapping="/controller/**"/>
+<mvc:resources location="/directives/" mapping="/directives/**"/>
+<mvc:resources location="/images/" mapping="/images/**"/>
+
 <mvc:resources location="/bower_components/" mapping="/bower_components/**"/>
 
 <!-- misc -->
