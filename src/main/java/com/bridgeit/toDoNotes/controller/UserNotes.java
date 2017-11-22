@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgeit.toDoNotes.model.Notes;
+import com.bridgeit.toDoNotes.model.Response;
 import com.bridgeit.toDoNotes.model.User;
 import com.bridgeit.toDoNotes.services.INotesService;
 import com.bridgeit.toDoNotes.services.UserServiceImpl;
@@ -36,8 +37,8 @@ public class UserNotes {
 	private ITokens iTokens;
 
 	@RequestMapping(value = "/createNote", method = RequestMethod.POST)
-	public ResponseEntity<String> createNote(@RequestBody Notes notes, HttpServletRequest request) {
-
+	public ResponseEntity<Response> createNote(@RequestBody Notes notes, HttpServletRequest request) {
+		Response myResponse=new Response();
 		notes.setCreatedTime(new Date());
 		notes.setUpdatedTime(notes.getCreatedTime());
 
@@ -67,11 +68,13 @@ public class UserNotes {
 		if(responseCount>0) {
 
 			logger.error("Note is  created ");
-
-			return  ResponseEntity.status(HttpStatus.CREATED).body("Note created succesfully");
+			myResponse.setResponseMessage("Note created succesfully");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(myResponse);
 		} 
 		logger.error("Note is not created ");
-		return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("BAD_REQUEST");
+		myResponse.setResponseMessage("Note is not created");
+
+		   return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(myResponse);
 
 	}
 

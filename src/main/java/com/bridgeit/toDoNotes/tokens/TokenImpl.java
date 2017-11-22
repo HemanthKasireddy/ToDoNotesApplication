@@ -21,7 +21,7 @@ public class TokenImpl implements ITokens {
 
 		Calendar calendar = Calendar.getInstance();
 		Date currentTime = calendar.getTime();
-		calendar.add(Calendar.MINUTE, 15);
+		calendar.add(Calendar.HOUR,1 );
 		Date expirationDate = calendar.getTime();
 
 		String token = Jwts.builder()

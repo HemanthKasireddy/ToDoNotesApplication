@@ -43,4 +43,6 @@
 	</script>
 	<script type="text/javascript" src="controller/homeController.js">
 	</script>
+	<script type="text/javascript" src="services/homeService.js">
+	</script>
 </html>

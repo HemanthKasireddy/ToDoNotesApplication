@@ -21,7 +21,9 @@ var ToDo=angular.module('ToDo', ['ui.router','ngMaterial', 'ngAnimate', 'ngAria'
 						});
 						$stateProvider.state('home', {
 							url : '/home',
-							templateUrl : 'template/home.html'
+							templateUrl : 'template/home.html',
+							controller:'homeController'
+							
 						});
 						$stateProvider.state('forgotPassword', {
 							url : '/forgotPassword',
