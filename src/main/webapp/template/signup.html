@@ -1,4 +1,4 @@
-<div layout="row" layout-align="center center" >
+<!-- <div layout="row" layout-align="center center" >
 <md-card  style="width:400px"  >
 	<md-content-card class="md-padding" layout-xs="column" layout="row">
 	
@@ -48,4 +48,57 @@
 		</div>
 	</md-content-card>
 </md-card>
-</div>
+</div> -->
+
+<md-content  layout="row" layout-align="space-around" layout-padding="layout-padding" ng-cloak="ng-cloak" class="login-form">
+      <md-card flex="flex" flex-gt-sm="50" flex-gt-md="33">
+        <md-toolbar>
+          <div class="md-toolbar-tools">
+					<h2>Sign in</h2>
+					<h4>to continue to My App</h4>
+          </div>
+        </md-toolbar>
+        <md-card-content>
+          <form name="SignupForm">
+            <md-input-container class="md-block">
+              <label>User Name</label>
+				<input ng-model="user.name" required><br>
+              <div ng-messages="SignupForm.name.$error" role="alert" multiple="">
+                <div ng-message="required" class="my-message">Please enter your name.</div>
+              </div>
+            </md-input-container>
+            <md-input-container class="md-block">
+              	<label>Email Id</label>
+									<input type="email" ng-model="user.email" required ><br>
+              <div ng-messages="SignupForm.email.$error" role="alert" multiple="">
+                <div ng-message="required" class="my-message">Please enter your email.</div>
+              </div>
+            </md-input-container>
+             <md-input-container class="md-block">
+              	<label> password </label> 
+							<input type="password" ng-model="user.password" name="password" required>
+              <div ng-messages="SignupForm.password.$error" role="alert" multiple="">
+                <div ng-message="required" class="my-message">Please enter your password.</div>
+              </div>
+            </md-input-container>
+             <md-input-container class="md-block">
+              <label>Confirm Password</label>
+			<input  type="password"  ng-model ="user.confirmPassword"  required><br>
+              <div ng-messages="SignupForm.confirmPassword.$error" role="alert" multiple="">
+                <div ng-message="required" class="my-message">Please enter confirm password.</div>
+              </div>
+            </md-input-container>
+             <md-input-container class="md-block">
+              	<label>Mobile Number</label>
+									<input ng-model="user.mobileNumber" required><br>
+              <div ng-messages="SignupForm.mobileNumber.$error" role="alert" multiple="">
+                <div ng-message="required" class="my-message">Please enter your mobile number.</div>
+              </div>
+            </md-input-container>
+            <md-button ng-disabled="!SignupForm.$valid" ng-click="registeringUser()" class="md-raised md-primary">&nbsp Login &nbsp</md-button>
+          	<md-button class="md-raised md-primary" ui-sref="login">cancel</md-button>
+          
+          </form>
+        </md-card-content>
+      </md-card>
+    </md-content>

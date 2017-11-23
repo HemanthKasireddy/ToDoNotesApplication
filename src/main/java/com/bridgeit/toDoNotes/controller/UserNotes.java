@@ -146,11 +146,12 @@ public class UserNotes {
 		}
 	}
 
-	@RequestMapping(value="/deleteNote/{id}",method = RequestMethod.POST)
-	public ResponseEntity<String> deleteNote(@PathVariable("id") long id,HttpServletRequest request) {
-
+	@RequestMapping(value="/deleteNote",method = RequestMethod.POST)
+	public ResponseEntity<Response> deleteNote(@RequestBody Notes notes ,HttpServletRequest request) {
+		System.out.println("delete Api");
 		Enumeration<String> headerNames = request.getHeaderNames();
 		String token=null; ;
+		Response myResponse=new Response();
 
 		while (headerNames.hasMoreElements()) {
 
@@ -165,21 +166,22 @@ public class UserNotes {
 		}
 
 		long userId=Long.valueOf(iTokens.verifyToken(token));
-		long responseCount =iNotesService.deleteNote(userId,id);
 
-		if(responseCount>0) {
+		if( iNotesService.deleteNote(notes ,userId) ) {
 
-			return  ResponseEntity.status(HttpStatus.ACCEPTED).body("Note deleted succesfully");
+			myResponse.setResponseMessage("Note deleted succesfully");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(myResponse);
 
 		} else {
 
-			return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Note deleted unsuccesfully");
+			myResponse.setResponseMessage("Note is not deletd");
 
+			   return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(myResponse);
 		}
 	}
 
-	@RequestMapping(value="/updateNote/{id}", method= RequestMethod.POST)
-	public ResponseEntity<String> updateNote(@RequestBody Notes notes,@PathVariable("id") long id,HttpServletRequest request) {
+	@RequestMapping(value="/updateNote", method= RequestMethod.POST)
+	public ResponseEntity<String> updateNote(@RequestBody Notes notes,HttpServletRequest request) {
 
 		Enumeration<String> headerNames = request.getHeaderNames();
 		String token=null; ;
@@ -195,9 +197,9 @@ public class UserNotes {
 		}
 
 		long userId=Long.valueOf(iTokens.verifyToken(token));
-		long responseCount =iNotesService.updateNote(notes,userId,id);
+		boolean isUpdated=iNotesService.updateNote(notes);
 
-		if(responseCount>0) {
+		if(isUpdated) {
 
 			return  ResponseEntity.status(HttpStatus.ACCEPTED).body("Note updated succesfully");
 

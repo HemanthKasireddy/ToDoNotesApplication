@@ -3,8 +3,7 @@
 
 
 	<link rel="stylesheet" type="text/css" href="bower_components/angular-material/angular-material.css" />
-	
-
+	<link href="css/home.css" rel="stylesheet" type="text/css"/>
 
 </head>
 <body ng-app="ToDo">

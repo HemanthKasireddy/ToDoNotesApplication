@@ -1,6 +1,7 @@
 <div>
 	<top-nav-bar></top-nav-bar>
 </div>
+<br>
 <div>
 	<side-nav-bar></side-nav-bar>
 
@@ -8,102 +9,82 @@
 <br>
 <br>
 
-
-<md-content flex layout-wrap> <md-card
-	md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}"
-	style="margin-left:20%; margin-right:20%;"> <md-card-title
-	ng-show="myVar"
-	style="padding-top:0px;  padding-right:10px; padding-bottom:0px; padding-left:10px">
-<md-card-title-text> <span class="md-headline">
-	<md-input-container class="md-block">
-	 <div ng-bind-html="user.title" contenteditable="true" contenteditabledata
-		aria-multiline="true" role="textbox"
-		style="background-color: rgb(250, 250, 250); outline: none ;width:800px"
-		data-placeholder="Title" id="noteTitle"></div> 
-	</md-input-container>
-</span> </md-card-title-text> </md-card-title> <md-card-title
-	style="padding-top:0px;padding-right:10px;padding-bottom:0px;padding-left:10px">
-<md-card-title-text> <span class="md-headline">
-	<md-input-container class="md-block">
-	<div ng-bind-html="user.content"  ng-focus="myVar=true"
-		contenteditable="true" contenteditabledata aria-multiline="true"
-		role="textbox"
-		style="background-color: rgb(250, 250, 250); outline: none;width:800px "
-		data-placeholder="Take a note" id="noteBody">
-			
-		</div>
-		
-	</md-input-container>
-</span>
-
- </md-card-title-text>
- <br>
- <md-card-actions>
-         
-<!-- 		    <md-icon md-svg-icon="images/icons/remeber.png"></md-icon>
- -->		    <md-buttton> <md-icon md-svg-icon="images/icons/share.svg"></md-icon> </md-buttton>
-		        <md-buttton><md-icon md-svg-icon="images/icons/addImage.svg"></md-icon></md-buttton>
-		        <md-buttton> <md-icon md-svg-icon="images/icons/archive.svg"></md-icon> </md-buttton>
-		        <md-buttton><md-icon md-svg-icon="images/icons/more.svg"></md-icon> </md-buttton>
-	          	<md-button ng-click="addNote()" style="width:30px">Done</md-button>
-        </md-card-actions> 
-        </md-card-title> 
- 
-</md-card>
-</md-content>
-
-<!-- <div>
+ <div>
   <md-content>
     <div flex="45">
-      <md-card >
-        <md-card-title>
+      <md-card  >
+        <md-card-title >
           <md-card-title-text>
-           <md-input-container class="md-block">
-	 <div ng-model="user.title" contenteditable="true" contenteditabledata
-		aria-multiline="true" role="textbox"
-		style="background-color: rgb(250, 250, 250); outline: none ;width:800px"
-		data-placeholder="Title"></div> 
-	</md-input-container>
+           <div>
+            	<div contenteditable="true"  ng-bind-html="note.title" ng-show="displayDiv" id="noteTitle" placeholder="Title" style="width:250px;border:0px;outline:0px"></div>
+            </div>
+            <br>
             <div>
-<md-input-container class="md-block">
-	<div ng-model="user.content" ng-focus="myVar=true"
-		contenteditable="true" contenteditabledata aria-multiline="true"
-		role="textbox"
-		style="background-color: rgb(250, 250, 250); outline: none;width:800px "
-		data-placeholder="Take a note">
-			
-		</div>            </div>
+            	<div contenteditable="true"  ng-bind-html="note.content" ng-show="true" id="noteBody"  placeholder="Take a note..." ng-click="show()" style="width:500px;border:0px;outline:0px"></div>
+            </div>
            
           </md-card-title-text>
         </md-card-title>
         <md-card-actions>
-          <md-buttton>
 	       	 <p ng-show="displayDiv">
-		        	<md-icon md-svg-icon="images/icons/remeber.png"></md-icon>
-		        	<md-icon md-svg-icon="images/icons/share.svg"></md-icon>
-		        	<md-icon md-svg-icon="images/icons/addImage.svg"></md-icon>
-		        	<md-icon md-svg-icon="images/icons/archive.svg"></md-icon>
-		        	<md-icon md-svg-icon="images/icons/more.svg"></md-icon>
-	          		<md-button ng-click="addNote()" style="width:30px">Done</md-button>
+	       			 <md-buttton > <md-icon md-svg-icon="images/icons/share.svg"></md-icon> </md-buttton>
+					        <md-buttton><md-icon md-svg-icon="images/icons/addImage.svg"></md-icon></md-buttton>
+					        <md-buttton> <md-icon md-svg-icon="images/icons/archive.svg"></md-icon> </md-buttton>
+       					        <md-buttton><md-icon md-svg-icon="images/icons/more.svg"></md-icon> </md-buttton>
+					        <md-buttton><md-icon md-svg-icon="images/icons/more.svg"></md-icon> </md-buttton>
+				          	<md-button  class="md-raised" ng-click="addNote()" style="width:30px">Done</md-button>
 	          </p>
         </md-card-actions>
       </md-card>
    </div>
 	</md-content>
-</div> -->
-<div layout="row" layout-wrap flex id="sortable">
-	<div ng-repeat="note in notes" flex="{{ notesView==='list' ? 90 : 30}}">
+</div>
+	
+</div>
+<div>       
+        <div  layout="row" layout-wrap flex id="sortable">
+        
+           <div ng-repeat="note in notes | filter:{trash:false}" flex="{{ notesView==='list' ? 90 : 30}}">
 		<md-card flex ng-mouseover="x=true" ng-mouseleave="x=false">
 
 		<md-card-title style="background-color:weight"> <md-card-title-text>
-
-		<span class="md-headline" ng-bind="note.title"></span> 
-		<span class="md-subhead" ng-bind="note.content"></span> 
-			
+		<div></div>
+		<div class="md-headline" ng-bind="note.title" style="width:250px;"></div> 
+		<div class="md-subhead" ng-bind="note.content" style="width:500px;"></div> 
+			<md-card-actions>	       	 
+	       		 <md-buttton > <md-icon md-svg-icon="images/icons/share.svg"></md-icon> </md-buttton>
+					        
+			     <md-buttton> <md-icon md-svg-icon="images/icons/addImage.svg"></md-icon></md-buttton>
+				 <md-buttton> <md-icon md-svg-icon="images/icons/archive.svg"></md-icon> </md-buttton>
+					        
+				 <md-menu md-offset="0 -7">
+          						
+          			<md-button  class="md-icon-button" ng-click="$mdMenu.open($event)" >
+          			
+          				 <md-icon md-svg-icon="images/icons/more.svg"> </md-icon>
+								
+					</md-button>
+         						
+         			<md-menu-content>
+           					    	
+           				<md-menu-item >
+            			 	
+            			 	<md-button ng-click="deleteNote(note)"> Delete note  </md-button><br>
+   
+            			</md-menu-item>
+           			  
+           			    <md-menu-item >
+         					
+         					<md-button> Add label </md-button>
+         						
+         				</md-menu-item>
+         		     </md-menu-content>
+       						
+       			 </md-menu>
+<!-- 				          	<md-button  class="md-raised" ng style="width:30px">Done</md-button>
+ -->	
+        </md-card-actions>
 			</md-card-title-text> </md-card-title> </md-card>
 	</div>
-</div>
-
-
-
+           </div>
 </div>

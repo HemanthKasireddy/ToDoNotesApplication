@@ -32,9 +32,12 @@ public class NotesServiceImpl implements INotesService {
 
 
 	@Override
-	public long deleteNote(long userId, long id) {
-
-		return iNotesDAO.deleteNote(userId,id);
+	public boolean deleteNote(Notes notes, long userId) {
+		if(iNotesDAO.getNoteById(notes.getNoteId(), userId)==null) {
+			return false;
+		}
+		notes.setTrash(true);
+		return iNotesDAO.deleteNote(notes);
 	}
 
 
@@ -46,10 +49,10 @@ public class NotesServiceImpl implements INotesService {
 	}
 
 	@Override
-	public int updateNote(Notes notes, long userId, long noteId) {
-
-		return iNotesDAO.updateNote(notes,userId,noteId);
+	public boolean updateNote(Notes notes) {
+		return iNotesDAO.updateNote(notes);
 
 	}
+	
 
 }

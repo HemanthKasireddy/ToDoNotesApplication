@@ -19,6 +19,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springf
 <mvc:resources location="/controller/" mapping="/controller/**"/>
 <mvc:resources location="/directives/" mapping="/directives/**"/>
 <mvc:resources location="/images/" mapping="/images/**"/>
+<mvc:resources location="/css/" mapping="/css/**"/>
 
 <mvc:resources location="/bower_components/" mapping="/bower_components/**"/>
 
@@ -53,8 +54,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springf
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
-<!-- 				<prop  key="hibernate.current_session_context_class">thread</prop> 		
- -->			</props>
+		    	<prop  key="hibernate.current_session_context_class">thread</prop> 		
+ 			</props>
 		</property>
 	</bean>
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">

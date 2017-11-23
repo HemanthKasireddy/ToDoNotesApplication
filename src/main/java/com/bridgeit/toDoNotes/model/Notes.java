@@ -24,7 +24,7 @@ public class Notes {
 	private Date createdTime;
 	private Date updatedTime;
 	private User user ;
-
+	private boolean isTrash;
 	public Notes() {}
 	public Notes(long  noteId,String title,String content, User user){
 		this.noteId=noteId;
@@ -88,6 +88,13 @@ public class Notes {
 	public String toString() {
 		return "Notes [noteId=" + noteId + ", title=" + title + ", content=" + content + ", createdTime=" + createdTime
 				+ ", updatedTime=" + updatedTime + ", user=" + user + "]";
+	}
+	@Column(name="Trash")
+	public boolean isTrash() {
+		return isTrash;
+	}
+	public void setTrash(boolean isTrash) {
+		this.isTrash = isTrash;
 	}
 	
 	

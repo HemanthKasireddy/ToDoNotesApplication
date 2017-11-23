@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bridgeit.toDoNotes.model.Notes;
 
+import javassist.bytecode.stackmap.BasicBlock.Catch;
+
 public class NotesDAOImpl implements INotesDAO {
 	 private  static Logger logger = Logger.getLogger(NotesDAOImpl.class);
 
@@ -85,35 +87,34 @@ public class NotesDAOImpl implements INotesDAO {
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public long deleteNote(long userId, long id) {
+	public boolean deleteNote(Notes notes) {
 		
 		if(sessionFactory == null) {
 
 			logger.fatal("connection incorrect");
 
-			return -1;
+			return false;
 		} 
 		logger.debug("connection correct");
-
-		Session session=sessionFactory.openSession();
-		logger.debug("session is opened ");
-		
-		session.beginTransaction();
-		logger.debug("transaction is opened ");
-		
-		logger.debug(userId);
-		
-		Query query=session.createQuery(" delete from Notes where userId=:userId and noteId=:noteId");
-		
-		query.setParameter("userId", userId);
-		query.setParameter("noteId", id);
-		
-		long responseCount=query.executeUpdate();
-		
-		session.getTransaction().commit();
-		session.close();
-		
-		return responseCount;
+		try {
+			Session session=sessionFactory.openSession();
+			logger.debug("session is opened ");
+			
+			session.beginTransaction();
+			logger.debug("transaction is opened ");
+			
+			
+			session.saveOrUpdate(notes);
+			
+			session.getTransaction().commit();
+			session.close();
+			
+			return true;
+			
+		} catch(Exception ex) {
+			
+			return false;
+		}
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -152,37 +153,33 @@ public class NotesDAOImpl implements INotesDAO {
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public int updateNote(Notes notes, long userId, long noteId) {
+	public boolean updateNote(Notes notes) {
 
 		if(sessionFactory == null) {
 
 			logger.fatal("connection incorrect");
 
-			return -1;
+			return false;
 		} 
 		logger.debug("connection correct");
-
+		try {
 		Session session=sessionFactory.openSession();
 		logger.debug("session is opened ");
 		
 		session.beginTransaction();
 		logger.debug("transaction is opened ");
-		
-		Query query=session.createQuery("update Notes set title=:title ,content=:content,updatedTime=:updatedTime  where userId=:userId and noteId=:noteId");
-		
-		query.setParameter("userId", userId);
-		query.setParameter("noteId", noteId);
-		query.setParameter("title", notes.getTitle());
-		query.setParameter("content", notes.getContent());
-		query.setParameter("updatedTime", new Date());
-		
-		int responseCount=query.executeUpdate();
+		session.saveOrUpdate(notes);
 		
 		session.getTransaction().commit();
 		logger.debug("inserting to database ");
 
 		session.close();
-		return responseCount;
+		return true;
+		}catch(Exception ex)  {
+				ex.printStackTrace();
+				logger.error(ex);
+				return false;
 		}
 
+	}
 }

@@ -37,5 +37,23 @@ ToDo.factory('getAllNotesService',function($http,$location){
 		    }
 		});
 	}
+	notes.deleteNote=function(token,note){
+		console.log("Inside delete note");
+		console.log(note);
+
+		return $http({
+
+		    method: 'POST',
+
+		    url: '/ToDoNotesApp/deleteNote',
+
+		    data:note,
+
+		    headers: {
+
+		        'token': token
+		    }
+		});
+	}
 	return notes;
 });
