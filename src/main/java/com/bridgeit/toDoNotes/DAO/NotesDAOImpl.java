@@ -1,6 +1,5 @@
 package com.bridgeit.toDoNotes.DAO;
 
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bridgeit.toDoNotes.model.Notes;
 
-import javassist.bytecode.stackmap.BasicBlock.Catch;
 
 public class NotesDAOImpl implements INotesDAO {
 	 private  static Logger logger = Logger.getLogger(NotesDAOImpl.class);
@@ -85,7 +83,6 @@ public class NotesDAOImpl implements INotesDAO {
 		return id;
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean deleteNote(Notes notes) {
 		
@@ -104,7 +101,7 @@ public class NotesDAOImpl implements INotesDAO {
 			logger.debug("transaction is opened ");
 			
 			
-			session.saveOrUpdate(notes);
+			session.delete(notes);
 			
 			session.getTransaction().commit();
 			session.close();
@@ -117,9 +114,9 @@ public class NotesDAOImpl implements INotesDAO {
 		}
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings("rawtypes")
 	@Override
-	public List<Notes> getNoteById(long userId, long noteId) {
+	public Notes getNoteById( long noteId,long userId) {
 		
 		if(sessionFactory == null) {
 
@@ -135,23 +132,19 @@ public class NotesDAOImpl implements INotesDAO {
 		session.beginTransaction();
 		logger.debug("transaction is opened ");
 		
-		logger.debug(userId);
-		
-		Query query=session.createQuery("from Notes where userId=:userId and noteId=:noteId");
-		
-		query.setParameter("userId", userId);
-		query.setParameter("noteId", noteId);
+		logger.debug(noteId);
+		Query query=session.createQuery("from Notes where noteId=:noteId and userId=:userId");
+		query.setParameter("noteId",noteId);
+		query.setParameter("userId",userId);
 
-		List<Notes> notes=query.list();
-		
+		Notes note=(Notes) query.uniqueResult();
 		session.getTransaction().commit();
 		session.close();
 		
-		return  notes;
+		return  note;
 	}
 
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean updateNote(Notes notes) {
 

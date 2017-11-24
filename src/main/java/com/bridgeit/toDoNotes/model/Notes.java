@@ -25,6 +25,9 @@ public class Notes {
 	private Date updatedTime;
 	private User user ;
 	private boolean isTrash;
+	private boolean isArchive;
+//	private boolean isReminder;
+	
 	public Notes() {}
 	public Notes(long  noteId,String title,String content, User user){
 		this.noteId=noteId;
@@ -84,11 +87,7 @@ public class Notes {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	@Override
-	public String toString() {
-		return "Notes [noteId=" + noteId + ", title=" + title + ", content=" + content + ", createdTime=" + createdTime
-				+ ", updatedTime=" + updatedTime + ", user=" + user + "]";
-	}
+	
 	@Column(name="Trash")
 	public boolean isTrash() {
 		return isTrash;
@@ -96,6 +95,27 @@ public class Notes {
 	public void setTrash(boolean isTrash) {
 		this.isTrash = isTrash;
 	}
+	@Column(name="Archive")
+	public boolean isArchive() {
+		return isArchive;
+	}
+	public void setArchive(boolean isArchive) {
+		this.isArchive = isArchive;
+	}
 	
+	/*@Column(name="Reminder")
+	public boolean isReminder() {
+		return isReminder;
+	}
+	public void setReminder(boolean isReminder) {
+		this.isReminder = isReminder;
+	}*/
+
+	@Override
+	public String toString() {
+		return "Notes [noteId=" + noteId + ", title=" + title + ", content=" + content + ", createdTime=" + createdTime
+				+ ", updatedTime=" + updatedTime + ", user=" + user + "]";
+	}
+		
 	
 }

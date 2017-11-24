@@ -1,0 +1,51 @@
+<div>
+	<top-nav-bar></top-nav-bar>
+</div>
+<br>
+<div>
+	<side-nav-bar></side-nav-bar>
+
+</div>
+<div>       
+        <div  layout="row" layout-wrap flex id="sortable">
+        
+        <div ng-repeat="note in notes | filter:{trash:true,archive:false}" flex="{{ notesView==='list' ? 90 : 30}}">
+		<md-card flex ng-mouseover="x=true" ng-mouseleave="x=false">
+
+		<md-card-title style="background-color:weight"> <md-card-title-text>
+		<div></div>
+		<div class="md-headline" ng-bind="note.title" style="width:250px;"></div> 
+		<div class="md-subhead" ng-bind="note.content" style="width:500px;"></div> 
+			<md-card-actions>	       	 
+					        					        
+				 <md-menu md-offset="0 -7">
+          						
+          			<md-button  class="md-icon-button" ng-click="$mdMenu.open($event)" >
+          			
+          				 <md-icon md-svg-icon="images/icons/more.svg"> </md-icon>
+								
+					</md-button>
+         						
+         			<md-menu-content>
+           					    	
+           				<md-menu-item >
+            			 	
+            			 	<md-button ng-click="deleteForeverNote(note)"> Delete forever  </md-button><br>
+   
+            			</md-menu-item>
+           			  
+           			    <md-menu-item >
+         					
+         					<md-button ng-click="restoreNote(note)"> Restore </md-button>
+         						
+         				</md-menu-item>
+         		     </md-menu-content>
+       						
+       			 </md-menu>
+<!-- 				          	<md-button  class="md-raised" ng style="width:30px">Done</md-button>
+ -->	
+        </md-card-actions>
+			</md-card-title-text> </md-card-title> </md-card>
+	</div>
+           </div>
+</div>

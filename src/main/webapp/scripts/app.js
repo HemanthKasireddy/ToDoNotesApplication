@@ -36,6 +36,17 @@ var ToDo=angular.module('ToDo', ['ui.router','ngMaterial', 'ngAnimate', 'ngAria'
 							templateUrl : 'template/resetPassword.html',
 							controller : 'resetPasswordController'
 						});
+						$stateProvider.state('trashNotes', {
+							url : '/trashNotes',
+							templateUrl : 'template/trashNotes.html',
+							controller:'homeController'
+							
+						});$stateProvider.state('archiveNotes', {
+							url : '/archiveNotes',
+							templateUrl : 'template/archiveNotes.html',
+							controller:'homeController'
+							
+						});
 						$urlRouterProvider.otherwise('login');
 					
 				}]);

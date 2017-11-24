@@ -24,6 +24,7 @@ public class FaceBookConnection {
 	private static final String faceBookClientId="360771361000827";
 	private static final String faceBookSecretId="4b2b1f5d288e6bf1cd070b36e38c3280";
 	public static final String Redirect_URI = "http://localhost:8080/ToDoNotesApp/connectFaceBook";
+	
 	public String getFaceBookURL(String unid) {
 		String facebookLoginURL = "";
 

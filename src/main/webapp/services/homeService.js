@@ -45,6 +45,60 @@ ToDo.factory('getAllNotesService',function($http,$location){
 
 		    method: 'POST',
 
+		    url: '/ToDoNotesApp/updateNote',
+
+		    data:note,
+
+		    headers: {
+
+		        'token': token
+		    }
+		});
+	}
+	notes.archiveNote=function(token,note){
+		console.log("Inside archive note");
+		console.log(note);
+
+		return $http({
+
+		    method: 'POST',
+
+		    url: '/ToDoNotesApp/updateNote',
+
+		    data:note,
+
+		    headers: {
+
+		        'token': token
+		    }
+		});
+	}
+	notes.reminderNote=function(token,note){
+		console.log("Inside reminder note");
+		console.log(note);
+
+		return $http({
+
+		    method: 'POST',
+
+		    url: '/ToDoNotesApp/updateNote',
+
+		    data:note,
+
+		    headers: {
+
+		        'token': token
+		    }
+		});
+	}
+	notes.deleteForeverNote=function(token,note){
+		console.log("Inside delete note");
+		console.log(note);
+
+		return $http({
+
+		    method: 'POST',
+
 		    url: '/ToDoNotesApp/deleteNote',
 
 		    data:note,
@@ -55,5 +109,43 @@ ToDo.factory('getAllNotesService',function($http,$location){
 		    }
 		});
 	}
+	notes.restoreNote=function(token,note){
+		console.log("Inside restore note");
+		console.log(note);
+
+		return $http({
+
+		    method: 'POST',
+
+		    url: '/ToDoNotesApp/updateNote',
+
+		    data:note,
+
+		    headers: {
+
+		        'token': token
+		    }
+		});
+	}
+	notes.updateNote=function(token,note){
+		console.log("Inside restore note");
+		console.log(note);
+
+		return $http({
+
+		    method: 'POST',
+
+		    url: '/ToDoNotesApp/updateNote',
+
+		    data:note,
+
+		    headers: {
+
+		         'token': token
+		    }
+		});
+	}
+	
 	return notes;
+
 });

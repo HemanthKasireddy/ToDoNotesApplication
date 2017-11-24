@@ -69,7 +69,7 @@ public class UserNotes {
 
 			logger.error("Note is  created ");
 			myResponse.setResponseMessage("Note created succesfully");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(myResponse);
+			return ResponseEntity.status(HttpStatus.CREATED).body(myResponse);
 		} 
 		logger.error("Note is not created ");
 		myResponse.setResponseMessage("Note is not created");
@@ -113,7 +113,7 @@ public class UserNotes {
 
 
 	@RequestMapping(value="/getNodeById/{id}",method=RequestMethod.GET)
-	public ResponseEntity<List<Notes>> getNoteById(@PathVariable("id") long noteId,HttpServletRequest request) {
+	public ResponseEntity<Notes> getNoteById(@PathVariable("id") long noteId,HttpServletRequest request) {
 
 		Enumeration<String> headerNames = request.getHeaderNames();
 		String token=null; ;
@@ -130,7 +130,7 @@ public class UserNotes {
 		}
 
 		long id=Long.valueOf(iTokens.verifyToken(token));
-		List<Notes> notes =iNotesService.getNoteById(id,noteId);
+		Notes notes =iNotesService.getNoteById(id,noteId);
 
 		if(notes!=null) {
 
@@ -170,7 +170,8 @@ public class UserNotes {
 		if( iNotesService.deleteNote(notes ,userId) ) {
 
 			myResponse.setResponseMessage("Note deleted succesfully");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(myResponse);
+			
+			return ResponseEntity.ok(myResponse);
 
 		} else {
 
@@ -181,8 +182,8 @@ public class UserNotes {
 	}
 
 	@RequestMapping(value="/updateNote", method= RequestMethod.POST)
-	public ResponseEntity<String> updateNote(@RequestBody Notes notes,HttpServletRequest request) {
-
+	public ResponseEntity<Response> updateNote(@RequestBody Notes notes,HttpServletRequest request) {
+		Response myResponse=new Response();
 		Enumeration<String> headerNames = request.getHeaderNames();
 		String token=null; ;
 
@@ -195,17 +196,17 @@ public class UserNotes {
 				break;
 			}
 		}
-
 		long userId=Long.valueOf(iTokens.verifyToken(token));
-		boolean isUpdated=iNotesService.updateNote(notes);
+		
+		boolean isUpdated=iNotesService.updateNote(notes ,userId);
 
 		if(isUpdated) {
 
-			return  ResponseEntity.status(HttpStatus.ACCEPTED).body("Note updated succesfully");
+			return  ResponseEntity.status(HttpStatus.ACCEPTED).body(myResponse);
 
 		} else {
 
-			return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Note updated unsuccesfully");
+			return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(myResponse);
 
 		}
 	}

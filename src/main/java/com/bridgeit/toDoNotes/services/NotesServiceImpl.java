@@ -33,23 +33,31 @@ public class NotesServiceImpl implements INotesService {
 
 	@Override
 	public boolean deleteNote(Notes notes, long userId) {
+	
 		if(iNotesDAO.getNoteById(notes.getNoteId(), userId)==null) {
 			return false;
 		}
-		notes.setTrash(true);
+		
 		return iNotesDAO.deleteNote(notes);
 	}
 
 
 	@Override
-	public List<Notes> getNoteById(long userId, long noteId) {
+	public Notes getNoteById(long userId, long noteId) {
 
-		return iNotesDAO.getNoteById(userId,noteId);
+		return iNotesDAO.getNoteById(noteId,userId);
 
 	}
 
 	@Override
-	public boolean updateNote(Notes notes) {
+	public boolean updateNote(Notes notes,long userId) {
+		Notes notesObject= iNotesDAO.getNoteById(notes.getNoteId(), userId);
+		
+		if(notesObject==null) {
+
+			return false;
+		}
+		notes.setUser(notesObject.getUser());
 		return iNotesDAO.updateNote(notes);
 
 	}
