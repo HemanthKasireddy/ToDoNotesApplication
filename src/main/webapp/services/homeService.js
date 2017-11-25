@@ -128,7 +128,25 @@ ToDo.factory('getAllNotesService',function($http,$location){
 		});
 	}
 	notes.updateNote=function(token,note){
-		console.log("Inside restore note");
+		//console.log("Inside restore note");
+		//console.log(note);
+
+		return $http({
+
+		    method: 'POST',
+
+		    url: '/ToDoNotesApp/updateNote',
+
+		    data:note,
+
+		    headers: {
+
+		         'token': token
+		    }
+		});
+	}
+	notes.pinNote=function(token,note){
+		console.log("Inside pin note");
 		console.log(note);
 
 		return $http({
@@ -145,7 +163,6 @@ ToDo.factory('getAllNotesService',function($http,$location){
 		    }
 		});
 	}
-	
 	return notes;
 
 });

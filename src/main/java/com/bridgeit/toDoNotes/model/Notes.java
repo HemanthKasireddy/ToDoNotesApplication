@@ -26,6 +26,7 @@ public class Notes {
 	private User user ;
 	private boolean isTrash;
 	private boolean isArchive;
+	private boolean isPinned;
 //	private boolean isReminder;
 	
 	public Notes() {}
@@ -102,7 +103,13 @@ public class Notes {
 	public void setArchive(boolean isArchive) {
 		this.isArchive = isArchive;
 	}
-	
+	@Column(name="Pinned")
+	public boolean isPinned() {
+		return isPinned;
+	}
+	public void setPinned(boolean isPinned) {
+		this.isPinned = isPinned;
+	}
 	/*@Column(name="Reminder")
 	public boolean isReminder() {
 		return isReminder;
@@ -116,6 +123,7 @@ public class Notes {
 		return "Notes [noteId=" + noteId + ", title=" + title + ", content=" + content + ", createdTime=" + createdTime
 				+ ", updatedTime=" + updatedTime + ", user=" + user + "]";
 	}
+	
 		
 	
 }

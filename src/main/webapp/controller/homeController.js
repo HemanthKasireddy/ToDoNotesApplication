@@ -3,7 +3,7 @@
  */
 var ToDo=angular.module('ToDo');
 
-  ToDo.controller('homeController', function($scope, $timeout, $mdSidenav,getAllNotesService,$location) {
+  ToDo.controller('homeController', function($scope, $timeout, $mdSidenav,getAllNotesService,$location,$mdDialog,$state) {
 	  $scope.displayDiv=false;
 		$scope.show=function(){
 			console.log("inside create")
@@ -56,11 +56,25 @@ var ToDo=angular.module('ToDo');
 
 			});
 		}
-	  $scope.archiveNote=function(note) {
-		  note.archive=1;
+	  $scope.archiveNote=function(note,status) {
+		  note.archive=status;
 		  console.log(note)
 		  var token= localStorage.getItem('token');
 		  var notes = getAllNotesService.archiveNote(token,note);
+		  notes.then(function(response) {
+			  console.log("note deleted");
+			  getNotes();
+		  }, function(response) {
+			  getNotes();
+				$scope.error = response.data.message;
+
+		  })
+	  }
+	  $scope.pinnedNote=function(note,status) {
+		  note.pinned=status;
+		  console.log(note);
+		  var token= localStorage.getItem('token');
+		  var notes = getAllNotesService.pinNote(token,note);
 		  notes.then(function(response) {
 			  console.log("note deleted");
 			  getNotes();
@@ -133,14 +147,15 @@ var ToDo=angular.module('ToDo');
 
 		
 		$scope.updateNote = function(note, event) {
+			console.log('calling');
 		    // Show dialog box for edit a note
-			console.log("inside updatenote");
-			console.log(note);
+			//console.log("inside updatenote");
+			//console.log(note);
 		    $mdDialog.show({
 		      locals: {
 		        dataToPass: note  // Pass the note data into dialog box
 		      },
-		      templateUrl: 'template/UpdateNote.html',
+		      templateUrl: 'template/updateNote.html',
 		      parent: angular.element(document.body),
 		      targetEvent: event,
 		      clickOutsideToClose: true,
@@ -160,17 +175,21 @@ var ToDo=angular.module('ToDo');
 		    	
 		    	dataToPass.title = document.getElementById("updatedNoteTitle").innerHTML;
 		    	
-		    	dataToPass.body = document.getElementById("updatedNoteBody").innerHTML;
+		    	dataToPass.content = document.getElementById("updatedNoteBody").innerHTML;
 		    	/*var updatedNoteTitle = document.getElementById("updatedNoteTitle").innerHTML;
 		    	
 		    	var updatedNoteBody = document.getElementById("updatedNoteBody").innerHTML;*/
 		    	
-		    	console.log(updatedNoteTitle+' '+updatedNoteBody)
+		    	console.log(dataToPass);
 		    	var token= localStorage.getItem('token');
-		  		var notes = noteService.service(token,dataToPass)
+		  		var notes = getAllNotesService.updateNote(token,dataToPass)
 		  		
 		  		notes.then(function(response){
-					console.log("success")
+					console.log(" updated success")
+					  getNotes();
+					$mdDialog.cancel();
+					$state.reload();
+
 				},function(response){
 					$scope.error=response.data.responseMessage;
 				});

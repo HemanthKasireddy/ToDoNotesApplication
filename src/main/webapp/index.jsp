@@ -21,7 +21,7 @@
 	</script>
 	<script src="bower_components/angular-aria/angular-aria.js" type="text/javascript">
 	</script>
-	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.7/angular-sanitize.js"></script>
 	<script src="scripts/app.js" type="text/javascript">	
 	</script>
 	

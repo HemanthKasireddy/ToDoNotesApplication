@@ -39,37 +39,65 @@
 	</md-content>
 </div>
 	
-</div>
-<!-- ---------------------------Display all notes-------------------------->
- <!-- <div>       
-        <div  layout="row" layout-wrap flex id="sortable">
-        <div ng-repeat="note in notes | filter:{trash:false,archive:false}" flex="{{ notesView==='list' ? 90 : 30}}">
-		<md-card flex ng-mouseover="x=true" ng-mouseleave="x=false">
-		 <md-button style="right:4px"> <md-icon md-svg-icon="images/icons/pin.svg"></md-icon></md-button>
-			
-		<md-card-title style="background-color:weight"> <md-card-title-text>
-		 <div>
-           				<img id="lastDiv" ng-src="images/icons/unpin.png" style="width:21px;float:right" ng-click="pinned(note,true)"/>
-           			</div>
-		           	<div>
-		            	<div ng-click="updateNote(note,$event)" ng-bind-html="note.title" ng-show="true" id="title"  style="word-break: break-all;border:0px;outline:0px">{{note.title}}</div>
+ 
+  <br>	
+	<!-- 		=========================Pinned============================================= 
+ -->
+	<div>
+		<h4>Pinned</h4>
+	<div layout="row" layout-wrap flex >
+	
+ <div ng-repeat="note in notes | filter:{pinned:true,trash:false}" ng-mouseover="mouse=true" ng-mouseleave="mouse=false"  id="note-scope" flex="30">
+	
+	<md-card class="card" id="float" >
+	        <md-card-title>
+		          <md-card-title-text ng-click="updateNote(note,$event)">
+		          <br>
+		          <br>
+		           	<div >
+		            	<div ng-bind-html="note.title"  id="title" style="word-break: break-all;border:0px;outline:0px">{{note.title}}</div>
 		            </div>
 		            <br>
 		            <div>
-		            	<div ng-bind-html="note.content" ng-show="true" id="body"   style="word-break: break-all;border:0px;outline:0px">{{note.content}}</div>
+		            	<div ng-bind-html="note.content"  id="body" style="word-break: break-all;border:0px;outline:0px">{{note.content}}</div>
 		            </div>
-			<md-card-actions>	       	 
-	       		
-	       	     <md-buttton ng-click="riminderNote()"> <md-icon md-svg-icon="images/icons/reminder.svg"></md-icon> </md-buttton>
-	       		
-	       		 <md-buttton > <md-icon md-svg-icon="images/icons/share.svg"></md-icon> </md-buttton>
-					        
-			     <md-buttton> <md-icon md-svg-icon="images/icons/addImage.svg"></md-icon></md-buttton>
-				 <md-buttton  ng-click="archiveNote(note)"> <md-icon md-svg-icon="images/icons/archive.svg"></md-icon> </md-buttton>
-					        
-				 <md-menu md-offset="0 -7">
+		           
+		          </md-card-title-text>
+		          <div role="button"><img ng-src="images/icons/unpin.svg" ng-show="mouse" style="width:21px;margin-top:-14px;float:right;" ng-click="pinnedNote(note,false)"/></div>
+		          
+	        </md-card-title>
+	     
+	        <md-card-actions>
+	        
+	        <md-panel>
+		      <p id="buttonDiv" class="icon">
+		       	 <md-button style="min-width:25px">	</md-button>
+		       	 <md-menu>
+	       			 <md-button style="min-width:25px;padding:5px" ng-show="mouse" ng-click="$mdMenu.open($event)">
+	       				<img src="images/icons/reminder.svg" >
+	       			</md-button>
+			              <md-menu-content>
+			                <md-menu-item>
+			                  <md-button ng-click="">Later Today 20:00</md-button>
+			                </md-menu-item>
+			                <md-menu-item>
+			                  <md-button ng-click="">Tomorrow 8:00</md-button>
+			                </md-menu-item>
+			                <md-menu-item>
+			                  <md-button ng-click="">Pick Date and Time</md-button>
+			                </md-menu-item>
+			              </md-menu-content>
+			       </md-menu>
+	        			
+	        			<md-button style="min-width:25px;padding:5px">
+		       				<md-icon md-svg-src="images/icons/share.svg" ng-show="mouse" ng-click="" style="width:21px"></md-icon>
+	        			</md-button>
+	        			<md-button style="min-width:25px;padding:5px" ng-show="mouse" ng-click="archive(note)">
+	        				<md-icon md-svg-src="images/icons/archive.svg" aria-lable="archive note"></md-icon>
+	        			</md-button>
+			              <md-menu md-offset="0 -7">
           						
-          			<md-button  class="md-icon-button" ng-click="$mdMenu.open($event)" >
+          			<md-button  class="md-icon-button"  ng-show="mouse" ng-click="$mdMenu.open($event)" >
           			
           				 <md-icon md-svg-icon="images/icons/more.svg"> </md-icon>
 								
@@ -90,46 +118,51 @@
          				</md-menu-item>
          		     </md-menu-content>
        						
-       			 </md-menu>
-				          	<md-button  class="md-raised" ng style="width:30px">Done</md-button>
-	
-        </md-card-actions>
-			</md-card-title-text> </md-card-title> </md-card>
+       			 </md-menu>			           
+		          </p>
+		          </md-panel>
+	        	</md-card-actions>
+     		
+     		</md-card>
+         </div>
 	</div>
-           </div>
-</div>
-  <br>	
-	
-	<div>
-		<h4>Pinned</h4>
-	<div layout="row" layout-wrap flex>
-		=========================Pinned============================================= 
-	<div ng-repeat="note in notes | filter:{pinned:true}"  id="note-scope" flex="30">
-	
-	<md-card class="card" id="float" >
-	        <md-card-title>
-		          <md-card-title-text ng-click="updateNote(note,$event)">
-		          <div>
-           				<img ng-src="images/icons/pin.svg" style="width:21px;float:right" ng-click="pinned(note,false)"/>
-           			</div>
-		           	<div >
-		            	<div ng-click="updateNote(note,$event)" ng-bind-html="note.title" ng-show="true" id="title" style="word-break: break-all;border:0px;outline:0px">{{note.title}}</div>
-		            </div>
+		
+	</div>	
+		<!-- ---------------------------Display all notes-------------------------->
+
+<div>       
+<h4>Others</h4><br>
+
+	<div  layout="row" layout-wrap flex id="sortable">
+      
+       <div ng-repeat="note in notes | filter:{trash:false,archive:false,pinned:false}" flex="{{ notesView==='list' ? 90 : 30}}" ng-mouseover="mouse=true" ng-mouseleave="mouse=false">
+	 	
+	 	  <md-card flex ng-mouseover="x=true" ng-mouseleave="x=false">
+			
+			 <md-card-title style="background-color:weight">
+			 
+			 	 <md-card-title-text  ng-click="updateNote(note,$event)"> <br><br>
+				 
+			        <div>
+			          	<div ng-bind-html="note.title" id="title"  style="word-break: break-all;border:0px;outline:0px">{{note.title}}</div>
+			        </div>
 		            <br>
 		            <div>
-		            	<div ng-bind-html="note.content" ng-show="true" id="body" style="word-break: break-all;border:0px;outline:0px">{{note.content}}</div>
+		            	<div ng-bind-html="note.content"  id="body"   style="word-break: break-all;border:0px;outline:0px">{{note.content}}</div>
 		            </div>
-		           
-		          </md-card-title-text>
-	        </md-card-title>
-	     
-	        <md-card-actions>
-	        <md-panel>
+			
+				</md-card-title-text>
+				<div role="button">	<md-icon id="lastDiv"  ng-show="mouse" md-svg-icon="images/icons/pin.svg" style="width:21px;float:right" ng-click="pinnedNote(note,true)"></md-icon></div> 
+			</md-card-title>
+			
+			<md-card-actions>	       	 
+	       		
+	       	     	        <md-panel>
 		      <p id="buttonDiv" class="icon">
-		       	 <md-button style="min-width:25px";>	
+		       	 <md-button style="min-width:25px">	</md-button>
 		       	 <md-menu>
-	       			 <md-button style="min-width:25px;padding:5px" ng-click="$mdMenu.open($event)">
-	       				<img src="images/icons/remender.svg" >
+	       			 <md-button style="min-width:25px;padding:5px" ng-show="mouse" ng-click="$mdMenu.open($event)">
+	       				<img src="images/icons/reminder.svg" >
 	       			</md-button>
 			              <md-menu-content>
 			                <md-menu-item>
@@ -145,40 +178,49 @@
 			       </md-menu>
 	        			
 	        			<md-button style="min-width:25px;padding:5px">
-		       				<md-icon md-svg-src="images/icons/share.svg" ng-click="" style="width:21px"></md-icon>
+		       				<md-icon md-svg-src="images/icons/share.svg" ng-show="mouse" ng-click="" style="width:21px"></md-icon>
 	        			</md-button>
-	        			<md-button style="min-width:25px;padding:5px" ng-click="archive(note,true)">
+	        			<md-button style="min-width:25px;padding:5px" ng-show="mouse" ng-click="archive(note)">
 	        				<md-icon md-svg-src="images/icons/archive.svg" aria-lable="archive note"></md-icon>
 	        			</md-button>
-	        			 <img ng-src="images/menu.svg" style="width:21px">
-				        <md-menu>
-			              <md-button style="min-width:25px;padding:5px" ng-click="$mdMenu.open($event)">
-			                <img ng-src="images/icons/menu.svg" style="width:21px">
-			              </md-button>
-			              <md-menu-content>
-			                <md-menu-item>
-			                  <md-button ng-click="deleteNote(note)">Delete</md-button>
-			                </md-menu-item>
-			                <md-menu-item>
-			                  <md-button ng-click="addLabelWindow()">Add Label</md-button>
-			                </md-menu-item>
-			              </md-menu-content>
-			            </md-menu>
-		          </p>
+			              <md-menu md-offset="0 -7">
+          						
+          			<md-button  class="md-icon-button" ng-show="mouse" ng-click="$mdMenu.open($event)" >
+          			
+          				 <md-icon md-svg-icon="images/icons/more.svg"> </md-icon>
+								
+					</md-button>
+         						
+         			<md-menu-content>
+           					    	
+           				<md-menu-item >
+            			 	
+            			 	<md-button ng-click="deleteNote(note)"> Delete note  </md-button><br>
+   
+            			</md-menu-item>
+           			  
+           			    <md-menu-item >
+         					
+         					<md-button> Add label </md-button>
+         						
+         				</md-menu-item>
+         		     </md-menu-content>
+       						
+       			 </md-menu>			           
+		          
+
+				          	
+	</p>
 		          </md-panel>
-	        	</md-card-actions>
-     		
-     		</md-card>
-         </div>
+        </md-card-actions>
+       </md-card>
 	</div>
-		
-	</div>	
-		
-	<h4>Others</h4><br>
-	<div layout="row" layout-wrap flex>
- -->
+  </div>
+</div>
  
-  <div  layout="column" style="margin-left:100px"></div>
+ 
+ 
+ <!--  <div  layout="column" style="margin-left:100px"></div>
   
  <div>
    <md-content layout-align="center center" flex="66" layout-gt-xs	>
@@ -203,7 +245,7 @@
         <md-card-actions>
 	        <md-panel>
 		      <p ng-show="displayDiv" class="icon">
-		       	<!--  <md-button style="min-width:25px";> -->	
+		       	 <md-button style="min-width:25px";>	
 		       	 <md-menu>
 	       			 <md-button style="min-width:25px;padding:5px" ng-click="$mdMenu.open($event)">
 	       				<img src="images/icons/reminder.svg" >
@@ -236,7 +278,7 @@
 	        			<md-button style="min-width:25px;padding:5px" ng-click="archive(note,true)">
 	        				<md-icon md-svg-src="images/icons/archive.svg" aria-lable="archive note"></md-icon>
 	        			</md-button>
-	        			<!--  <img ng-src="images/menu.svg" style="width:21px"> -->
+	        			 <img ng-src="images/menu.svg" style="width:21px">
 				        <md-menu>
 			              <md-button style="min-width:25px;padding:5px" ng-click="$mdMenu.open($event)">
 			                <img ng-src="images/icons/menu.svg" style="width:21px">
@@ -254,7 +296,7 @@
 		          </md-panel>
 	        	</md-card-actions>
         
-    <!--     <md-card-actions>
+        <md-card-actions>
         <md-panel>
 	       	 <p ng-show="displayDiv" >
 	       		
@@ -281,9 +323,10 @@
         			<img ng-src="images/archive.svg" style="width:21px;padding:8px;">
         			
 	          		<md-button ng-click="addNote()" style="width:30px;float:right">Done</md-button>
-	          </p>
+	          </p>ng-show="displayDiv"/>
+        	</div>
 	          </md-panel>
-        </md-card-actions> -->
+        </md-card-actions>
       </md-card>
    </div>
 	</md-content>
@@ -291,8 +334,9 @@
 	
 	<div>
 		<h4>Pinned</h4>
-	<div layout="row" layout-wrap flex>
-		<!--=========================Pinned=============================================  -->
+	<div layout="row" layout-wrap flex>ng-show="displayDiv"/>
+        	</div>
+		=========================Pinned============================================= 
 	<div ng-repeat="note in notes | filter:{pinned:true}"  id="note-scope" flex="30">
 	
 	<md-card class="card" id="float" >
@@ -315,7 +359,7 @@
 	        <md-card-actions>
 	        <md-panel>
 		      <p id="lastDiv" class="icon">
-		       	<!--  <md-button style="min-width:25px";> -->	
+		       	 <md-button style="min-width:25px";>	
 		       	 <md-menu>
 	       			 <md-button style="min-width:25px;padding:5px" ng-click="$mdMenu.open($event)">
 	       				<img src="images/icons/reminder.svg" >
@@ -348,7 +392,7 @@
 	        			<md-button style="min-width:25px;padding:5px" ng-click="archive(note,true)">
 	        				<md-icon md-svg-src="images/icons/archive.svg" aria-lable="archive note"></md-icon>
 	        			</md-button>
-	        			<!--  <img ng-src="images/menu.svg" style="width:21px"> -->
+	        			 <img ng-src="images/menu.svg" style="width:21px">
 				        <md-menu>
 			              <md-button style="min-width:25px;padding:5px" ng-click="$mdMenu.open($event)">
 			                <img ng-src="images/icons/menu.svg" style="width:21px">
@@ -374,7 +418,7 @@
 		
 	<h4>Others</h4><br>
 	<div layout="row" layout-wrap flex>
-		<!--=========================OTHER=============================================  -->
+		=========================OTHER============================================= 
 	<div ng-repeat="note in notes | filter:{pinned:false,trash:false,archive:false}"  id="note-scope" flex="30">
 	
 	<md-card calass="card" id="float" ng-click="showConfirm($event)" >
@@ -396,7 +440,7 @@
 	     
 	        <md-card-actions>
 		      <p id="lastDiv" class="icon">
-		       	<!--  <md-button style="min-width:25px";> -->	
+		       	 <md-button style="min-width:25px";>	
 		       	 <md-menu>
 	       			 <md-button style="min-width:25px;padding:5px" ng-click="$mdMenu.open($event)">
 	       				<img src="images/remender.svg" >
@@ -413,7 +457,7 @@
 			                </md-menu-item>
 			              </md-menu-content>
 			       </md-menu>
-			     <!--   </md-button> -->
+			       </md-button>
 	        			
 	        			<md-button style="min-width:25px;padding:5px">
 		       				<md-icon md-svg-src="images/share.svg" ng-click="" style="width:21px"></md-icon>
@@ -430,7 +474,7 @@
 	        			<md-button style="min-width:25px;padding:5px" ng-click="archive(note,true)">
 	        				<md-icon md-svg-src="images/archive.svg" aria-lable="archive note"></md-icon>
 	        			</md-button>
-	        			<!--  <img ng-src="images/menu.svg" style="width:21px"> -->
+	        			 <img ng-src="images/menu.svg" style="width:21px">
 				        <md-menu>
 			              <md-button style="min-width:25px;padding:5px" ng-click="$mdMenu.open($event)">
 			                <img ng-src="images/menu.svg" style="width:21px">
@@ -459,4 +503,4 @@
  
  
  
- 
+  -->
