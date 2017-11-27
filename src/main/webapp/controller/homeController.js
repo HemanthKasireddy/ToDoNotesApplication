@@ -41,11 +41,15 @@ var ToDo=angular.module('ToDo');
 	    	$scope.note.content = document.getElementById("noteBody").innerHTML;
 			
 			var notes = getAllNotesService.addNote(token, $scope.note);
-			
+			$scope.note.color=$scope.color;
+
 			notes.then(function(response) {
 
 				document.getElementById("noteTitle").innerHTML="";
 				document.getElementById("noteBody").innerHTML="";
+				$scope.color='#fff';
+				$scope.displayDiv=false;
+
 				getNotes();
 
 			}, function(response) {
@@ -112,6 +116,37 @@ var ToDo=angular.module('ToDo');
 
 		  })
 	  }
+	  $scope.colors = [ '#fff', '#ff8a80', '#ffd180', '#ffff8d',
+			'#ccff90', '#a7ffeb', '#80d8ff', '#82b1ff',
+			'#b388ff', '#f8bbd0', '#d7ccc8', '#cfd8dc' ];
+		
+		 
+		 
+		 $scope.noteColor=function(newColor, oldColor)
+		 {
+			 console.log(newColor);
+			 $scope.color = newColor;
+		 }
+		 
+		$scope.colorChanged = function(newColor, oldColor, note) {
+	        note.color=newColor;
+	        
+			 console.log("present note color is"+note.color);
+
+	        var token= localStorage.getItem('token');
+	  		var notes = getAllNotesService.updateNote(token,note)
+	  		
+	  		notes.then(function(response){
+				console.log(" updated color  success")
+				  getNotes();
+				$mdDialog.cancel();
+				$state.reload();
+
+			},function(response){
+				$scope.error=response.data.responseMessage;
+			});
+
+	    }
 	  $scope.deleteForeverNote= function(note) {
 		  console.log(note);
 		  var token= localStorage.getItem('token');

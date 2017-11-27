@@ -11,7 +11,7 @@
 <div>       
         <div  layout="row" layout-wrap flex id="sortable">
         
-        <div ng-repeat="note in notes | filter:{archive:true}" flex="{{ notesView==='list' ? 90 : 30}}">
+        <div ng-repeat="note in notes | filter:{archive:true,trash:false}" flex="{{ notesView==='list' ? 90 : 30}}">
 		<md-card flex ng-mouseover="x=true" ng-mouseleave="x=false">
 
 		<md-card-title style="background-color:weight"> <md-card-title-text>
@@ -22,8 +22,9 @@
 	       		 <md-buttton > <md-icon md-svg-icon="images/icons/share.svg"></md-icon> </md-buttton>
 					        
 			     <md-buttton> <md-icon md-svg-icon="images/icons/addImage.svg"></md-icon></md-buttton>
-				 <md-buttton> <md-icon md-svg-icon="images/icons/archive.svg"></md-icon> </md-buttton>
-					        
+						<md-button  ng-click="archiveNote(note,false)">
+	        				<md-icon md-svg-src="images/icons/archive.svg" aria-lable="archive note"></md-icon>
+	        			</md-button>					        
 				 <md-menu md-offset="0 -7">
           						
           			<md-button  class="md-icon-button" ng-click="$mdMenu.open($event)" >
@@ -36,7 +37,7 @@
            					    	
            				<md-menu-item >
             			 	
-            			 	<md-button ng-click="getNotes()"> Delete from trash  </md-button><br>
+            			 	<md-button ng-click="deleteNote(note)"> Delete </md-button><br>
    
             			</md-menu-item>
            			  

@@ -27,6 +27,7 @@ public class Notes {
 	private boolean isTrash;
 	private boolean isArchive;
 	private boolean isPinned;
+	private String color;
 //	private boolean isReminder;
 	
 	public Notes() {}
@@ -122,6 +123,12 @@ public class Notes {
 	public String toString() {
 		return "Notes [noteId=" + noteId + ", title=" + title + ", content=" + content + ", createdTime=" + createdTime
 				+ ", updatedTime=" + updatedTime + ", user=" + user + "]";
+	}
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
+		this.color = color;
 	}
 	
 		

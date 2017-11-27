@@ -4,7 +4,7 @@
 
 	<link rel="stylesheet" type="text/css" href="bower_components/angular-material/angular-material.css" />
 	<link href="css/home.css" rel="stylesheet" type="text/css"/>
-
+	<link href="bower_components/colorpicker-master/source/colorPickerStyle.css" rel="stylesheet" type="text/css"/>
 </head>
 <body ng-app="ToDo">
 <div ui-view> </div>
@@ -12,6 +12,8 @@
 </body>
 	<script src="bower_components/angular/angular.js" type="text/javascript">
 	</script>
+	<script src="bower_components/colorpicker-master/source/colorPicker.js" type="text/javascript">
+</script>
 	
 	<script src="bower_components/angular-animate/angular-animate.js" type="text/javascript">
 	</script>
