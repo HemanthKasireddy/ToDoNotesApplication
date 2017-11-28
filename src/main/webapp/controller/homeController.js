@@ -3,7 +3,8 @@
  */
 var ToDo=angular.module('ToDo');
 
-  ToDo.controller('homeController', function($scope, $timeout, $mdSidenav,getAllNotesService,$location,$mdDialog,$state) {
+  ToDo.controller('homeController', function($scope, $timeout, $mdSidenav,getAllNotesService,$location,$mdDialog,$state,mdcDateTimeDialog,toastr,$filter,$interval,$http) {
+	  
 	  $scope.displayDiv=false;
 		$scope.show=function(){
 			console.log("inside create")
@@ -23,6 +24,17 @@ var ToDo=angular.module('ToDo');
 				$scope.notes = response.data;
 				getAllNotesService.notes = response.data;
 				console.log(Notes)
+				 $interval(function () {
+				       
+			          for (var i = 0; i < response.data.length; i++) {
+			            if(response.data[i].reminder) {
+			            	var date=new Date(response.data[i].reminder);
+			            	if ($filter('date')(date)== $filter('date')(new Date())) {
+			                toastr.success(response.data[i].body, response.data[i].title);
+			              }
+			            }
+			          }
+			      }, 60000);
 			}, function(response) {
 				console.log(response.status);
 				if (response.status = '511') {
@@ -102,19 +114,48 @@ var ToDo=angular.module('ToDo');
 
 		  })
 	  }
-	  $scope.reminderNote= function(note) {
-		  note.reminder=1;
+	  
+	  
+	  $scope.displayDialog = function (note) {
+	      mdcDateTimeDialog.show({
+	       /* maxDate: $scope.maxDate,*/
+	        time: true
+	      })
+	        .then(function (date) {
+	        	console.log(date);
+	          $scope.selectedDateTime = date;
+	          note.reminder=date;
+	          
+	          console.log('New Date / Time selected:', date);
+	          
+	          var token= localStorage.getItem('token');
+			  var notes = getAllNotesService.reminderNote(token,note);
+			  notes.then(function(response) {
+				  console.log("note is reminder success");
+				  getNotes();
+			  }, function(response) {
+				  getNotes();
+					$scope.error = response.data.message;
+
+			  })
+	        });
+	    };
+	   
+	    
+	  $scope.cancelReminder= function(note) {
+		  note.reminder=null;
 		  console.log(note);
 		  var token= localStorage.getItem('token');
 		  var notes = getAllNotesService.reminderNote(token,note);
 		  notes.then(function(response) {
-			  console.log("note deleted");
+			  console.log("note reminder cancelled");
 			  getNotes();
 		  }, function(response) {
 			  getNotes();
 				$scope.error = response.data.message;
 
 		  })
+		
 	  }
 	  $scope.colors = [ '#fff', '#ff8a80', '#ffd180', '#ffff8d',
 			'#ccff90', '#a7ffeb', '#80d8ff', '#82b1ff',
@@ -183,9 +224,7 @@ var ToDo=angular.module('ToDo');
 		
 		$scope.updateNote = function(note, event) {
 			console.log('calling');
-		    // Show dialog box for edit a note
-			//console.log("inside updatenote");
-			//console.log(note);
+			note.updatedTime=new Date();
 		    $mdDialog.show({
 		      locals: {
 		        dataToPass: note  // Pass the note data into dialog box
@@ -211,10 +250,7 @@ var ToDo=angular.module('ToDo');
 		    	dataToPass.title = document.getElementById("updatedNoteTitle").innerHTML;
 		    	
 		    	dataToPass.content = document.getElementById("updatedNoteBody").innerHTML;
-		    	/*var updatedNoteTitle = document.getElementById("updatedNoteTitle").innerHTML;
-		    	
-		    	var updatedNoteBody = document.getElementById("updatedNoteBody").innerHTML;*/
-		    	
+		    			    	
 		    	console.log(dataToPass);
 		    	var token= localStorage.getItem('token');
 		  		var notes = getAllNotesService.updateNote(token,dataToPass)

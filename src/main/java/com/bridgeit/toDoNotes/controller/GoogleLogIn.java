@@ -5,18 +5,17 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bridgeit.toDoNotes.model.Response;
 import com.bridgeit.toDoNotes.model.User;
 import com.bridgeit.toDoNotes.services.UserServiceImpl;
 import com.bridgeit.toDoNotes.socialLogging.GoogleConnection;
+import com.bridgeit.toDoNotes.tokens.ITokens;
 import com.fasterxml.jackson.databind.JsonNode;
 @RestController
 public class GoogleLogIn {
@@ -27,13 +26,14 @@ public class GoogleLogIn {
 	private GoogleConnection googleConnection;
 	@Autowired
 	private UserServiceImpl userServiceImpl;
-
+	@Autowired
+	private ITokens iTokens;
 	@RequestMapping(value="/logInWithGoogle")
 	public void googleConnection(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		String unid=UUID.randomUUID().toString();
 		request.getSession().setAttribute("STATE", unid);
-
+ 
 		String googleLogInURL=googleConnection.getGoogleURL(unid);
 
 		logger.debug("googleLoginURL  " + googleLogInURL);
@@ -43,8 +43,7 @@ public class GoogleLogIn {
 	}
 
 	@RequestMapping(value="/connectGoogle")
-	public void redirectFromGoogle(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		Response myResponse=new Response();
+	public void redirectFromGoogle(HttpServletRequest request,HttpSession session, HttpServletResponse response) throws IOException {
 		String sessionState = (String) request.getSession().getAttribute("STATE");
 		String googlestate = request.getParameter("state");
 
@@ -92,21 +91,35 @@ public class GoogleLogIn {
 
 			//user.setPassword("");
 			//user.getMobileNumber(profile.get(arg0));
+			user.setPicUrl(profile.get("image").get("url").asText());
 
 			user.setActivated(true);
 			//inserting a user details in to database 
 			userServiceImpl.insertUser(user);
-
-			myResponse.setResponseMessage(googleaccessToken);
-			response.sendRedirect("http://localhost:8080/ToDoNotesApp/#!/home");
+			User user1 = userServiceImpl.getUserByEmailId(profile.get("email").asText());
+			String token=iTokens.generateToken("login",String.valueOf(user1.getUserId()));
+			session.setAttribute("token", token);
+			response.sendRedirect("http://localhost:8080/ToDoNotesApp/#!/dummy");
 
 		} else {
+			String token=iTokens.generateToken("login",String.valueOf(user.getUserId()));
 			logger.debug(" user is already existin our db");
-
-			myResponse.setResponseMessage(googleaccessToken);
-			response.sendRedirect("http://localhost:8080/ToDoNotesApp/#!/home");
-
+		//	myResponse.setResponseMessage(token);
+			logger.debug("token generated for google log in"+token);
+			session.setAttribute("token", token);
+			response.sendRedirect("http://localhost:8080/ToDoNotesApp/#!/dummy");
 		}
 
 	}
+	/*@RequestMapping(value="/getToken")
+	public ResponseEntity<Response> getToken(HttpSession session,HttpServletResponse response){
+		logger.debug("in side social login token sending");
+		Response myResponse = new Response() ;
+		response.setHeader("Authorazation",(String) session.getAttribute("token"));
+
+		 myResponse.setResponseMessage((String) session.getAttribute("token"));
+		 System.out.println( session.getAttribute("token").toString());
+		session.removeAttribute("token");
+		return  ResponseEntity.ok(myResponse);
+	}*/
 }

@@ -34,17 +34,20 @@
  -->	       				<md-icon md-svg-icon="images/icons/reminder.svg"></md-icon>
 	       					<md-tooltip md-direction="bottom">reminder</md-tooltip>
 	       			</md-button>
-			              <md-menu-content>
+			             <!-- <md-menu-content>
 			                <md-menu-item>
 			                  <md-button ng-click="">Later Today 20:00</md-button>
 			                </md-menu-item>
 			                <md-menu-item>
 			                  <md-button ng-click="">Tomorrow 8:00</md-button>
 			                </md-menu-item>
-			                <md-menu-item>
-			                  <md-button ng-click=""> Pick Date and Time</md-button>
-			                </md-menu-item>
+			                <md-menu-item> -->
+			                <md-menu-content>
+			                <button class="md-raised md-primary md-button md-ink-ripple" type="button"=""
+							ng-click="displayDialog(note)">Display Picker</button>
 			              </md-menu-content>
+			             <!--    </md-menu-item>
+			              </md-menu-content> -->
 			       </md-menu>
 			       <md-button style="min-width:25px;padding:5px">
 		       				<md-icon md-svg-src="images/icons/share.svg" ng-click="" style="width:21px"></md-icon>
@@ -121,6 +124,7 @@
 		            <br>
 		            <div>
 		            	<div ng-bind-html="note.content"  id="body" style="word-break: break-all;border:0px;outline:0px">{{note.content}}</div>
+		            
 		            </div>
 		           
 		          </md-card-title-text>
@@ -128,9 +132,15 @@
 		          	<img ng-src="images/icons/unpin.svg" ng-show="mouse" style="width:21px;margin-top:-14px;float:right;" ng-click="pinnedNote(note,false)"/>
 		          	
 		          </div>
-		          
+		     
 	        </md-card-title>
-	     
+	     	<p ng-if="note.reminder" style="font-size:10px;padding:8px">Reminder : {{note.reminder | date:'medium'}}
+	     		<md-button style="min-width:25px;padding:5px">
+		       		<md-icon md-svg-src="images/icons/cancel.svg" ng-show="mouse" ng-click="cancelReminder(note)" style="width:21px"></md-icon>
+		       		<md-tooltip md-direction="bottom"> cancel reminder</md-tooltip>	       		
+		       				
+	        	</md-button>
+		     </p>	 
 	        <md-card-actions>
 	        
 	        <md-panel>
@@ -140,7 +150,7 @@
 							<md-icon md-svg-icon="images/icons/reminder.svg"></md-icon>
 	       					<md-tooltip md-direction="bottom">reminder</md-tooltip>	       		
 	       			 </md-button>
-			              <md-menu-content>
+			              <!-- <md-menu-content>
 			                <md-menu-item>
 			                  <md-button ng-click="">Later Today 20:00</md-button>
 			                </md-menu-item>
@@ -150,6 +160,10 @@
 			                <md-menu-item>
 			                  <md-button ng-click="">Pick Date and Time</md-button>
 			                </md-menu-item>
+			              </md-menu-content> -->
+			               <md-menu-content>
+			                <button class="md-raised md-primary md-button md-ink-ripple" type="button"=""
+							ng-click="displayDialog(note)">Date Picker</button>
 			              </md-menu-content>
 			       </md-menu>
 	        			
@@ -228,7 +242,13 @@
 				</md-card-title-text>
 				<div role="button">	<md-icon id="lastDiv"  ng-show="mouse" md-svg-icon="images/icons/pin.svg" style="width:21px;float:right" ng-click="pinnedNote(note,true)"></md-icon></div> 
 			</md-card-title>
-			
+				     	<p ng-if="note.reminder" style="font-size:10px;padding:8px">Reminder : {{note.reminder | date:'medium'}} 
+				     	<md-button style="min-width:25px;padding:5px">
+		       				<md-icon md-svg-src="images/icons/cancel.svg" ng-show="mouse" ng-click="cancelReminder(note)" style="width:21px"></md-icon>
+		       				<md-tooltip md-direction="bottom"> cancel reminder</md-tooltip>	       		
+		       				
+	        			</md-button></p>
+						
 			<md-card-actions>	       	 
 	       		
 	       	 <md-panel>
@@ -239,7 +259,7 @@
 							<md-icon md-svg-icon="images/icons/reminder.svg"></md-icon>
 	       					<md-tooltip md-direction="bottom">reminder</md-tooltip>
 	       			</md-button>
-			              <md-menu-content>
+			              <!-- <md-menu-content>
 			                <md-menu-item>
 			                  <md-button ng-click="">Later Today 20:00</md-button>
 			                </md-menu-item>
@@ -249,6 +269,10 @@
 			                <md-menu-item>
 			                  <md-button ng-click="">Pick Date and Time</md-button>
 			                </md-menu-item>
+			              </md-menu-content> -->
+			               <md-menu-content>
+			                <button class="md-raised md-primary md-button md-ink-ripple" type="button"
+							ng-click="displayDialog(note)">Date Picker</button>
 			              </md-menu-content>
 			       </md-menu>
 	        			

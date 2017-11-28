@@ -19,7 +19,8 @@ public class User {
 	private long mobileNumber;
 	private String  password;
 	private String confirmPassword;
-	private boolean activated;	
+	private boolean activated;
+	private String picUrl;
 	private List<Notes> notes;
 public User() {}
 	@Id
@@ -92,10 +93,17 @@ public User() {}
 		this.notes = notes;
 	}
 
+	@Column(name="UesrPicUrl")
+	public String getPicUrl() {
+		return picUrl;
+	}
+	public void setPicUrl(String picUrl) {
+		this.picUrl = picUrl;
+	}
+	
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", name=" + name + ", email=" + email + ", mobileNumber=" + mobileNumber
 				+ ", password=" + password + ", confirmPassword=" + confirmPassword + ", activated=" + activated + "]";
 	}
-
 }

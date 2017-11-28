@@ -2,7 +2,7 @@
  * 
  */
 
-var ToDo=angular.module('ToDo', ['ui.router','ngMaterial', 'ngAnimate', 'ngAria', 'ngSanitize','tb-color-picker'])
+var ToDo=angular.module('ToDo', ['ui.router','ngMaterial', 'ngAnimate', 'ngAria', 'ngSanitize','tb-color-picker','ngMaterialDatePicker','toastr'])
 				.config(['$stateProvider','$urlRouterProvider',function($stateProvider,$urlRouterProvider) {
 					
 						$stateProvider.state('login',{
@@ -46,6 +46,11 @@ var ToDo=angular.module('ToDo', ['ui.router','ngMaterial', 'ngAnimate', 'ngAria'
 							templateUrl : 'template/archiveNotes.html',
 							controller:'homeController'
 							
+						});
+						$stateProvider.state('dummy', {
+							url : '/dummy',
+							templateUrl : 'template/dummy.html',
+							controller : 'dummyController'
 						});
 						$urlRouterProvider.otherwise('login');
 					

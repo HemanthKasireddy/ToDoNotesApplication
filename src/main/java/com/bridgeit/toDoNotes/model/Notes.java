@@ -28,9 +28,10 @@ public class Notes {
 	private boolean isArchive;
 	private boolean isPinned;
 	private String color;
-//	private boolean isReminder;
-	
+	private Date reminder;
+
 	public Notes() {}
+	
 	public Notes(long  noteId,String title,String content, User user){
 		this.noteId=noteId;
 		this.title=title;
@@ -111,26 +112,27 @@ public class Notes {
 	public void setPinned(boolean isPinned) {
 		this.isPinned = isPinned;
 	}
-	/*@Column(name="Reminder")
-	public boolean isReminder() {
-		return isReminder;
-	}
-	public void setReminder(boolean isReminder) {
-		this.isReminder = isReminder;
-	}*/
-
-	@Override
-	public String toString() {
-		return "Notes [noteId=" + noteId + ", title=" + title + ", content=" + content + ", createdTime=" + createdTime
-				+ ", updatedTime=" + updatedTime + ", user=" + user + "]";
-	}
+	
+	@Column(name="Color")
 	public String getColor() {
 		return color;
 	}
 	public void setColor(String color) {
 		this.color = color;
 	}
+	@Column(name="Reminder")
+	public Date getReminder() {
+		return reminder;
+	}
+	public void setReminder(Date reminder) {
+		this.reminder = reminder;
+	}
 	
-		
+
+	@Override
+	public String toString() {
+		return "Notes [noteId=" + noteId + ", title=" + title + ", content=" + content + ", createdTime=" + createdTime
+				+ ", updatedTime=" + updatedTime + ", user=" + user + "]";
+	}
 	
 }
