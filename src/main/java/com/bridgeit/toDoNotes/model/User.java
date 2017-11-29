@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class User {
 	
@@ -22,7 +24,9 @@ public class User {
 	private boolean activated;
 	private String picUrl;
 	private List<Notes> notes;
-public User() {}
+	
+	public User() {}
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="userId")
@@ -84,7 +88,7 @@ public User() {}
 	public void setActivated(boolean activated) {
 		this.activated = activated;
 	}
-	
+	@JsonIgnore
 	@OneToMany(mappedBy="user")
 	public List<Notes> getNotes() {
 		return notes;

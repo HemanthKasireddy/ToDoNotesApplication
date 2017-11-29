@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgeit.toDoNotes.model.Notes;
 import com.bridgeit.toDoNotes.model.Response;
+import com.bridgeit.toDoNotes.model.SharedNotes;
 import com.bridgeit.toDoNotes.model.User;
 import com.bridgeit.toDoNotes.services.INotesService;
 import com.bridgeit.toDoNotes.services.UserServiceImpl;
@@ -79,6 +80,34 @@ public class UserNotes {
 	}
 
 
+	@RequestMapping(value="/getUser",method=RequestMethod.GET)
+	public ResponseEntity<User> getuser(HttpServletRequest request) {
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@inside get user");
+		Enumeration<String> headerNames = request.getHeaderNames();
+		String token=null; ;
+
+		while (headerNames.hasMoreElements()) {
+
+			String key = (String) headerNames.nextElement();
+			logger.debug("headers are : "+request.getHeader(key));
+
+			if(key.equals("token")) {
+
+				token = request.getHeader(key);
+				break;
+			}
+		}
+
+		User user1=userServiceImpl.getUserById(Long.valueOf(iTokens.verifyToken(token)));
+		
+System.out.println("@@@@@@##############@@@@@@@@@@@@####################"+user1);
+		return ResponseEntity.ok(user1);
+
+	}
+
+	
+	
+	
 	@RequestMapping(value="/getAllNotes",method=RequestMethod.GET)
 	public ResponseEntity<List<Notes>> getAllNotes(HttpServletRequest request) {
 
@@ -209,5 +238,39 @@ public class UserNotes {
 			return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(myResponse);
 
 		}
+	}
+	
+
+	@RequestMapping(value="/collaborator", method= RequestMethod.POST)
+	public ResponseEntity<Response> collaborator(@RequestBody Notes notes,HttpServletRequest request) {
+		Response myResponse=new Response();
+		Enumeration<String> headerNames = request.getHeaderNames();
+		String token=null; ;
+
+		while (headerNames.hasMoreElements()) {
+
+			String key = (String) headerNames.nextElement();
+			if(key.equals("token")) {
+
+				token = request.getHeader(key);
+				break;
+			}
+		}
+		long userId=Long.valueOf(iTokens.verifyToken(token));
+		SharedNotes sharedNotes=new SharedNotes();
+		if(userId<0) {
+			myResponse.setResponseMessage("Token is expired");
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(myResponse);
+		}
+		
+		
+		User sharedUser=notes.getUser();
+		long sharedNoteId=notes.getNoteId();
+		sharedNotes.setNoteId(sharedNoteId);
+		sharedNotes.setShareuserId(sharedUser.getUserId());
+		myResponse.setResponseMessage("Shared success");
+		return ResponseEntity.status(HttpStatus.CREATED).body(myResponse);
+
+		
 	}
 }

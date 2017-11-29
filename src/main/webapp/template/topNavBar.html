@@ -28,7 +28,37 @@
 		      </md-autocomplete>
 	  </div> 
 	</div>
-	        
+<md-menu>
+	       	<md-button class="md-fab md-icon my-icon-button" aria-label="User" ng-click="$mdMenu.open($event)">
+	       		 	<md-tooltip md-direction="bottom">{{user.email}}</md-tooltip>
+            	<img ng-src="{{user.picUrl}}" alt="{{user.name.charAt(0)}}" style=" height: 100%;width: 100%;">
+        	</md-button>
+	 			
+			<md-menu-content width="4" md-direction="bottom">
+                
+                <div flex="33">
+                	
+	                <span class="md-avatar">
+	               		 <md-button class="md-fab md-icon my-icon-button" aria-label="User" ng-click="$mdMenu.open($event)">
+	   			         	<img ng-src="{{user.picUrl}}" alt="{{user.name.charAt(0)}}" style=" height: 100%;width: 100%;">
+	        			</md-button>
+	        			<b>{{user.name}}</b>
+	  					<p>{{user.email}}</p>
+	  				</span><br>
+	  				 <md-divider></md-divider>
+	  				 
+	  				  <md-button class="md-raised">Change Profile</md-button>
+	  					<md-button class="md-raised md-primary" ng-click="logout()">Logout</md-button>
+	  				
+  				</div>
+  				
+          </md-menu-content>
+          
+        </md-menu>
+	    	
+	  
+	  
+	 </div>     
 	  
 	 </div>
      

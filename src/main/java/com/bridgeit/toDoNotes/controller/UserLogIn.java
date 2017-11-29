@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -81,7 +82,54 @@ public class UserLogIn {
 		return ResponseEntity.status(HttpStatus.CREATED).body("link is sent your mail ");
 
 	}
+	
+	@RequestMapping(value = "/getuserByEmail/{emailId}", method = RequestMethod.GET)
+	public ResponseEntity<User> getuserByEmail(@PathVariable(value="emailId") String emailId, HttpServletRequest request) {
 
+		Enumeration<String> headerNames = request.getHeaderNames();
+		String token = null;
+		
+
+		while (headerNames.hasMoreElements()) {
+
+			String key = (String) headerNames.nextElement();
+
+			if (key.equals("token")) {
+
+				token = request.getHeader(key);
+				break;
+
+			}
+		}
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@!@@!!!!!!!!!!!!!!!!!!!!!!!!"+emailId);
+		long id = Long.valueOf(iTokens.verifyToken(token));
+
+		logger.debug("@@@@@@@@@@@@@@@@@@@@@token id is " + id);
+
+		if (id > 0) {
+
+			User user = userServiceImpl.getUserById(id);
+
+			if (user != null) {
+				User user1=userServiceImpl.getUserByEmailId(emailId);
+				if (user1==null) {
+
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+
+				} 
+				
+				return ResponseEntity.ok(user1);
+
+			} else {
+				return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+			}
+
+		} else {
+
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+
+		}
+	}
 	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
 	public ResponseEntity<String> resetPassword(@RequestBody User userDetails, String password, HttpServletRequest request) {
 

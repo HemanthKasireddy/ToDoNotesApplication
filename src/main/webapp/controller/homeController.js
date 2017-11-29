@@ -15,7 +15,17 @@ var ToDo=angular.module('ToDo');
 		 // $scope.notes = getAllNotesService.notes;
 		 		  $mdSidenav('left').toggle();
 	  }
-	  
+	  var getUser=function() {
+		  var user= getAllNotesService.users();
+		  user.then(function(response) {
+			  console.log(user);
+				$scope.user = response.data;
+
+		  }, function(response) {
+			  console.log(response.status)
+		  
+	  })
+	  }
 	  var getNotes=function(){
 	    	
 		  var Notes = getAllNotesService.Notes();
@@ -115,7 +125,10 @@ var ToDo=angular.module('ToDo');
 		  })
 	  }
 	  
-	  
+	  $scope.logout = function() {
+			localStorage.removeItem('token');
+			$location.path('login');
+		}
 	  $scope.displayDialog = function (note) {
 	      mdcDateTimeDialog.show({
 	       /* maxDate: $scope.maxDate,*/
@@ -141,6 +154,21 @@ var ToDo=angular.module('ToDo');
 	        });
 	    };
 	   
+	    $scope.share= function(note) {
+			  note.reminder=null;
+			  console.log(note);
+			  var token= localStorage.getItem('token');
+			  var notes = getAllNotesService.reminderNote(token,note);
+			  notes.then(function(response) {
+				  console.log("note reminder cancelled");
+				  getNotes();
+			  }, function(response) {
+				  getNotes();
+					$scope.error = response.data.message;
+
+			  })
+			
+		  }
 	    
 	  $scope.cancelReminder= function(note) {
 		  note.reminder=null;
@@ -267,6 +295,57 @@ var ToDo=angular.module('ToDo');
 		      }
 		
 		}
+		
+		$scope.collaborator = function(note,user, event) {
+		    $mdDialog.show({
+		      locals: {
+		        dataToPass: note  // Pass the note data into dialog box
+		      },
+		      templateUrl: 'template/collaborator.html',
+		      parent: angular.element(document.body),
+		      targetEvent: event,
+		      clickOutsideToClose: true,
+		      controllerAs: 'controller',
+		      controller: mdDialogshareController
+		    });
+		}
+		function mdDialogshareController($scope, $state, dataToPass) {
+		      $scope.mdDialogData = dataToPass;
+		    	var token= localStorage.getItem('token');
+
+		      
+		      // Saving the edited note
+		      	$scope.sharColleborator = function() {
+		    	
+		    	console.log($scope.collaboratorEmail);
+		    	var user= getAllNotesService.getUserByEmail($scope.collaboratorEmail,token);
+		    	user.then(function(response) {
+					  console.log(user);
+					  	console.log("gggggggggggggggggggggg")
+						$scope.user = response.data;
+				    	dataToPass.email=$scope.user; 
+
+				  }, function(response) {
+					  console.log(response.status)
+				  
+			  })
+		   		 			    	
+		    	console.log(dataToPass);
+		  		var notes = getAllNotesService.collaborator(dataToPass,token)
+		  		
+		  		notes.then(function(response){
+					console.log(" shared success")
+					  getNotes();
+					$mdDialog.cancel();
+					$state.reload();
+
+				},function(response){
+					$scope.error=response.data.responseMessage;
+				});
+		      }
+		
+		}
+		getUser();
 		getNotes();	
   });
 	  
