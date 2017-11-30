@@ -27,31 +27,46 @@ ToDo.factory('getAllNotesService',function($http,$location){
 			}
 		})
 	}
-	notes.collaborator=function(token,note) {
-		console.log("in side collaborator")
+	notes.getOwner=function(note) {
+		console.log("inside get owner ")
+		return $http({
+			method :'get',
+			url :'/ToDoNotesApp/getOwner',
+			headers :{
+						'token' : localStorage.getItem('token')
+					},
+		   data:note
+		})
+	}
+	notes.collaborator=function(note,token,email) {
+		console.log("in side real collaborator")
 		return $http({
 			method:'POST',
 			url:'/ToDoNotesApp/collaborator',
 			headers: {
-		        		'token': token
+		        		'token': token,
+		        		'emailId':email
+
 					 },
-			data:note,
+			data:note
 		
 		})
 	}
-	notes.getUserByEmail=function(email,token) {
+	/*notes.getUserByEmail=function(email,token) {
 		console.log("in side collaborator")
+		console.log("getUserby emailid service token is: "+token)
 		console.log("Service "+email);
-		var urlI="/ToDoNotesApp/getuserByEmail"+"email";
+		var urlI="/ToDoNotesApp/getuserByEmail";
 		return $http({
 			method:'GET',
 			url:urlI,
 			headers: {
-		        		'token': token
+		        		'token': token,
+		        		'emailId':email
 					 }
 		
 		})
-	}
+	}*/
 	notes.addNote=function(token,note){
 		console.log("Inside add note");
 		console.log(note);

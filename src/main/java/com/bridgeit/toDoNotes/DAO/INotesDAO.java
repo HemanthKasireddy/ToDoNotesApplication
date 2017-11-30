@@ -10,4 +10,5 @@ public interface INotesDAO {
 	public List<Notes> getAllNotes(long userId);
 	public boolean updateNote(Notes notes);
 	public boolean deleteNote(Notes notes);
+	public Notes getNote(long noteId);
 }

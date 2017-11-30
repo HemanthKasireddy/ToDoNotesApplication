@@ -1,4 +1,4 @@
-package com.bridgeit.toDoNotes.model;
+/*package com.bridgeit.toDoNotes.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,4 +28,4 @@ public long getNoteId() {
 public void setNoteId(long noteId) {
 	this.noteId = noteId;
 }
-}
+}*/

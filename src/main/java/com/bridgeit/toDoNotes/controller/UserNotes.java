@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgeit.toDoNotes.model.Notes;
 import com.bridgeit.toDoNotes.model.Response;
-import com.bridgeit.toDoNotes.model.SharedNotes;
 import com.bridgeit.toDoNotes.model.User;
 import com.bridgeit.toDoNotes.services.INotesService;
 import com.bridgeit.toDoNotes.services.UserServiceImpl;
@@ -81,7 +80,7 @@ public class UserNotes {
 
 
 	@RequestMapping(value="/getUser",method=RequestMethod.GET)
-	public ResponseEntity<User> getuser(HttpServletRequest request) {
+	public ResponseEntity<User> getuser( HttpServletRequest request) {
 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@inside get user");
 		Enumeration<String> headerNames = request.getHeaderNames();
 		String token=null; ;
@@ -105,6 +104,21 @@ System.out.println("@@@@@@##############@@@@@@@@@@@@####################"+user1)
 
 	}
 
+	@RequestMapping(value = "/getOwner", method = RequestMethod.POST)
+	public ResponseEntity<User> getOwner(@RequestBody Notes note, HttpServletRequest request){
+		String token=request.getHeader("token");
+		long id=Long.valueOf(iTokens.verifyToken(token));
+
+		User user1=userServiceImpl.getUserById(id);
+		if(user1!=null) {
+		Notes userNote=iNotesService.getNoteById(id, note.getNoteId());
+		User owner=userNote.getUser();
+		return ResponseEntity.ok(owner);
+		}
+		else{
+			return ResponseEntity.ok(null);
+		}
+	}
 	
 	
 	
@@ -243,10 +257,25 @@ System.out.println("@@@@@@##############@@@@@@@@@@@@####################"+user1)
 
 	@RequestMapping(value="/collaborator", method= RequestMethod.POST)
 	public ResponseEntity<Response> collaborator(@RequestBody Notes notes,HttpServletRequest request) {
+	logger.debug("@@@@@@@@@@@@@@@@@@!!!!!!!!!!!!!!!!!!##############!!!!!!!!!!!# inside colleborator api");
 		Response myResponse=new Response();
-		Enumeration<String> headerNames = request.getHeaderNames();
-		String token=null; ;
+		String token=request.getHeader("token"); 
+		long userId=Long.valueOf(iTokens.verifyToken(token));
 
+		if(userId<0) {
+			myResponse.setResponseMessage("Token is expired");
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(myResponse);
+		}
+		Notes oldNote=iNotesService.getNote(notes.getNoteId());
+		User sharedUser=userServiceImpl.getUserByEmailId(request.getHeader("emailId"));
+		oldNote.getSharedUser().add(sharedUser);
+		if(iNotesService.updateNote(oldNote, oldNote.getUser().getUserId())) {
+			return  ResponseEntity.status(HttpStatus.ACCEPTED).body(myResponse);
+
+		}
+		return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(myResponse);
+
+/*
 		while (headerNames.hasMoreElements()) {
 
 			String key = (String) headerNames.nextElement();
@@ -264,13 +293,12 @@ System.out.println("@@@@@@##############@@@@@@@@@@@@####################"+user1)
 		}
 		
 		
-		User sharedUser=notes.getUser();
-		long sharedNoteId=notes.getNoteId();
-		sharedNotes.setNoteId(sharedNoteId);
+		List<User> sharedUser=notes.getSharedUser();
+	
+		sharedNotes.setNoteId(notes.getNoteId());
 		sharedNotes.setShareuserId(sharedUser.getUserId());
 		myResponse.setResponseMessage("Shared success");
-		return ResponseEntity.status(HttpStatus.CREATED).body(myResponse);
-
+		return ResponseEntity.status(HttpStatus.CREATED).body(myResponse);*/
 		
 	}
 }

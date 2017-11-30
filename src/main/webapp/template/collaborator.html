@@ -1,30 +1,93 @@
-<md-dialog flex="45" style="background-color:{{mdDialogData.color}}">
+ <md-dialog flex="45" style="background-color:white">
  	<md-dialog-content>
-		
-		<!-- <md-input-container class="md-block">
+		<md-title md-padding><h3>Collaborators</h3></md-title>
+			<md-divider></md-divider>
+		<div layout="row" flex  ng-init="getOwner(note)"> 
+				<div layout="column" flex="15">
+					<md-button class="md-fab md-icon my-icon-button" aria-label="User">
+	   			         	<img ng-src="{{owner.picUrl}}" style=" height: 100%;width: 100%;">
+	       		</md-button>
+	       		</div>
+			       		<div layout="column" flex="15">
+			       			{{owner.name}}
+			   				{{owner.email}}
+			   			</div>
+	   	</div>
+	   	
 
-  				<div ng-bind-html="mdDialogData.title"  id="updatedNoteTitle" contenteditable="true" contenteditabledata  aria-multiline="true" role="textbox" style="background-color: rgb(250, 250, 250); outline:none; background-color:{{mdDialogData.color}}"  ></div>
-	
-		</md-input-container>
- -->
-<!--    <div  id="owner"  aria-multiline="true" role="textbox" style="background-color: rgb(250, 250, 250); outline:none; background-color:{{mdDialogData.color}}">{{user.email}}</div>
- -->			 
-	<input type="text" ng-model="collaboratorEmail">
+     <div>
+         <md-input-container>
+        <label>Email</label>
+        	<input ng-model="collaboratorEmail" type="text">
+     	 </md-input-container>
+         
+          
+      	
+      </div>
 	 
-	        		
+	        <md-divider></md-divider>
+	   			<md-panel>
+	   				<md-button md-autofocus flex class="md-primary" ng-click="sharColleborator()">
+      					Done
+   				 </md-button>
+	   			</md-panel>		
 		
-		
-		<md-dialog-actions>
-			
-			<md-panel>
-					
-					<md-button ng-click="sharColleborator()" class="md-primary" >Done</md-button>
-		
-			</md-panel>
-		</md-dialog-actions>
-	
-		<!-- <md-dialog-actions>
-  				<i>Edited on&nbsp;</i>{{mdDialogData.updatedAt ? (mdDialogData.updatedAt.date) : mdDialogData.createdAt.date}}.{{mdDialogData.updatedAt ? mdDialogData.updatedAt.month : mdDialogData.createdAt.month}}.{{mdDialogData.updatedAt ? mdDialogData.updatedAt.year : mdDialogData.createdAt.year}}&nbsp;{{mdDialogData.updatedAt ? mdDialogData.updatedAt.hr : mdDialogData.createdAt.hr}}:{{mdDialogData.updatedAt ? mdDialogData.updatedAt.min : mdDialogData.createdAt.min}}</p>
-  		</md-dialog-actions> -->
 	</md-dialog-content>
-</md-dialog>
+</md-dialog> 
+
+
+<!-- <md-dialog flex="45" style="background-color:white">
+	<md-dialog-content>
+	
+			<md-title md-padding><h3>Collaborators</h3></md-title>
+			<md-divider></md-divider>
+			
+		<div layout="row" flex>
+				<div layout="column" flex="15">
+					<md-button class="md-fab md-icon my-icon-button" aria-label="User">
+	   			         	<img ng-src="{{user.picUrl}}" style=" height: 100%;width: 100%;">
+	       		</md-button>
+	       		</div>
+			       		<div layout="column" flex="15">
+			       			{{user.name}}
+			   				{{user.email}}
+			   			</div>
+	   	</div>
+	   	<div layout="row" flex>
+	   		<div layout="column" flex="15">
+	   			<md-button class="md-fab md-icon my-icon-button" aria-label="User">
+	   			         <md-icon md-svg-src="images/share.svg" ng-click="" style="width:21px"></md-icon>
+	   		 </md-button>	
+	   	</div>
+	   	<md-autocomplete flex
+          ng-disabled="isDisabled"
+          md-no-cache="noCache"
+          md-selected-item="selectedItem"
+          md-search-text-change="getAllUsers(search)"
+          md-search-text="searchText"
+          md-selected-item-change="selectedItemChange(item)"
+          md-items="item in querySearch(ctrl.searchText)"
+          md-item-text="item.name"
+          md-min-length="0"
+          placeholder="Pick an Angular repository"
+          md-menu-class="autocomplete-custom-template">
+        <md-item-template>
+        </md-autocomplete>
+         
+         <md-input-container>
+        <label>Email</label>
+        	<input ng-model="search" type="text">
+     	 </md-input-container>
+         
+          
+      	
+      </div>
+      
+	   			<md-divider></md-divider>
+	   			<md-panel>
+	   				<md-button md-autofocus flex class="md-primary" ng-click="sharColleborator()">
+      					Done
+   				 </md-button>
+	   			</md-panel>
+	</md-dialog-content>
+</md-dialog> -->

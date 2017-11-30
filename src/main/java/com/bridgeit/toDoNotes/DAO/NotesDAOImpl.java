@@ -175,4 +175,34 @@ public class NotesDAOImpl implements INotesDAO {
 		}
 
 	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Notes getNote(long noteId) {
+		
+		if(sessionFactory == null) {
+
+			logger.fatal("connection incorrect");
+
+			return null;
+		} 
+		logger.debug("connection correct");
+
+		Session session=sessionFactory.openSession();
+		logger.debug("session is opened ");
+		
+		session.beginTransaction();
+		logger.debug("transaction is opened ");
+		
+		logger.debug(noteId);
+		Query query=session.createQuery("from Notes where noteId=:noteId");
+		query.setParameter("noteId",noteId);
+
+		Notes note=(Notes) query.uniqueResult();
+		note.getSharedUser().size();
+		session.getTransaction().commit();
+		session.close();
+		
+		return  note;	
+	}
 }

@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.bridgeit.toDoNotes.DAO.INotesDAO;
 import com.bridgeit.toDoNotes.model.Notes;
+import com.bridgeit.toDoNotes.model.User;
 
 public class NotesServiceImpl implements INotesService {
 
@@ -60,6 +61,11 @@ public class NotesServiceImpl implements INotesService {
 		notes.setUser(notesObject.getUser());
 		return iNotesDAO.updateNote(notes);
 
+	}
+	@Override
+	public Notes getNote(long noteId) {
+
+		return iNotesDAO.getNote(noteId);
 	}
 	
 

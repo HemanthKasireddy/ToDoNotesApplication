@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 @Table(name="UserNotes")
@@ -136,7 +138,7 @@ public class Notes {
 		return "Notes [noteId=" + noteId + ", title=" + title + ", content=" + content + ", createdTime=" + createdTime
 				+ ", updatedTime=" + updatedTime + ", user=" + user + "]";
 	}
-	@JsonIgnore
+	@JsonProperty(access=Access.WRITE_ONLY)
 	@ManyToMany
 	@Column(name="sharedNoteId")
 	public List<User> getSharedUser() {

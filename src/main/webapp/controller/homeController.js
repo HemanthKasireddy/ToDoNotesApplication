@@ -26,6 +26,18 @@ var ToDo=angular.module('ToDo');
 		  
 	  })
 	  }
+	  $scope.getOwner = function(note) {
+			var token = localStorage.getItem('token');
+			var users = getAllNotesService.getOwner( token, note);
+			users.then(function(response) {
+
+				$scope.owner = response.data;
+				console.log("inside get owner"+owner)
+
+			}, function(response) {
+				$scope.users = {};
+			});
+		}
 	  var getNotes=function(){
 	    	
 		  var Notes = getAllNotesService.Notes();
@@ -296,7 +308,7 @@ var ToDo=angular.module('ToDo');
 		
 		}
 		
-		$scope.collaborator = function(note,user, event) {
+		$scope.collaborator = function(note, event) {
 		    $mdDialog.show({
 		      locals: {
 		        dataToPass: note  // Pass the note data into dialog box
@@ -313,35 +325,35 @@ var ToDo=angular.module('ToDo');
 		      $scope.mdDialogData = dataToPass;
 		    	var token= localStorage.getItem('token');
 
-		      
+		      console.log("Token of colaborator note is : "+token);
 		      // Saving the edited note
 		      	$scope.sharColleborator = function() {
 		    	
 		    	console.log($scope.collaboratorEmail);
-		    	var user= getAllNotesService.getUserByEmail($scope.collaboratorEmail,token);
+/*		    	var user= getAllNotesService.getUserByEmail($scope.collaboratorEmail,token);
 		    	user.then(function(response) {
 					  console.log(user);
 					  	console.log("gggggggggggggggggggggg")
 						$scope.user = response.data;
-				    	dataToPass.email=$scope.user; 
+				    	dataToPass.sharedUser=$scope.user; 
+				    	console.log(dataToPass);
+*/				  	
+		    	var notes = getAllNotesService.collaborator(dataToPass,token,$scope.collaboratorEmail)		
+				  		notes.then(function(response){
+							console.log(" shared success")
+							  getNotes();
+							$mdDialog.cancel();
+							$state.reload();
 
-				  }, function(response) {
+						},function(response){
+							$scope.error=response.data.responseMessage;
+						});
+				 /* }, function(response) {
 					  console.log(response.status)
 				  
-			  })
+			  })*/
 		   		 			    	
-		    	console.log(dataToPass);
-		  		var notes = getAllNotesService.collaborator(dataToPass,token)
-		  		
-		  		notes.then(function(response){
-					console.log(" shared success")
-					  getNotes();
-					$mdDialog.cancel();
-					$state.reload();
-
-				},function(response){
-					$scope.error=response.data.responseMessage;
-				});
+		    	
 		      }
 		
 		}

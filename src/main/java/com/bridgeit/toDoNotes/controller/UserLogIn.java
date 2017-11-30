@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -83,13 +84,13 @@ public class UserLogIn {
 
 	}
 	
-	@RequestMapping(value = "/getuserByEmail/{emailId}", method = RequestMethod.GET)
-	public ResponseEntity<User> getuserByEmail(@PathVariable(value="emailId") String emailId, HttpServletRequest request) {
+	@RequestMapping(value = "/getuserByEmail", method = RequestMethod.GET)
+	public ResponseEntity<User> getuserByEmail(@RequestHeader("emailId") String emailId, HttpServletRequest request) {
 
 		Enumeration<String> headerNames = request.getHeaderNames();
 		String token = null;
 		
-
+System.out.println("!@!!!!!!!!!!!!!!!!@@@@@@@@@@@@@@@@!!!!!!!!@@@@@@@@@ inside of get user token is: "+request.getHeader("token"));
 		while (headerNames.hasMoreElements()) {
 
 			String key = (String) headerNames.nextElement();
@@ -107,20 +108,24 @@ public class UserLogIn {
 		logger.debug("@@@@@@@@@@@@@@@@@@@@@token id is " + id);
 
 		if (id > 0) {
+			logger.debug("id is  valid ");
+			System.out.println("valid0000000000000000000000000000000000000000");
 
 			User user = userServiceImpl.getUserById(id);
-
+			logger.debug("@@@@@@@@@@@@@@@@@@@@@user is " +user);
+			
 			if (user != null) {
 				User user1=userServiceImpl.getUserByEmailId(emailId);
 				if (user1==null) {
-
+					logger.debug("~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^6in side null user");
 					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 
 				} 
-				
+				System.out.println("#########@@@@@@@@@@###############@@@@@@@@@@@@@@@@@@@@@@success"+user1);
 				return ResponseEntity.ok(user1);
 
 			} else {
+				System.out.println("user is not there in data base+++++++++++++++++++++++++++++++++");
 				return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 			}
 

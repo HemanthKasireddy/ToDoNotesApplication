@@ -72,14 +72,17 @@ public class UserDAO implements IUserDAO {
 		session.beginTransaction();
 		logger.debug("transaction is opened ");
 
-		User user=session.get(User.class, id);
+		User user1=session.get(User.class, id);
 
 		session.getTransaction().commit();
 		logger.debug(" up dated inserting to database ");
-
+		if(user1==null) {
+			logger.debug("@@@@@@$$$$$$$$$$$$$$$$$$$$$$$$$$ in dao get user by id is null");
+		}
+		
 		session.close();
 
-		return user;
+		return user1;
 
 	}
 
@@ -215,19 +218,26 @@ public class UserDAO implements IUserDAO {
 		session.beginTransaction();
 		logger.debug("transaction is opened ");
 
-		Query query=session.createQuery("from User where UserEmail=:UserEmail");
-		query.setParameter("UserEmail",email);
+		/*Query query=session.createQuery("from User where UserEmail=:UserEmail");
+		query.setParameter("UserEmail",email);*/
 		//logger.debug(password);
 		//query.setParameter("password",BCrypt.password);
+		/*User user1=session.get(User.class, email);*/
+		System.out.println("#$$$$$$$$$$$$$$##############$$$$$$$$$$######$$$$$# email is"+email);
+		User user1=(User) session.createQuery("from User where email = :email")
+		           .setParameter("email", email)
+		           .uniqueResult();
 
-		User user=(User) query.uniqueResult();
 
 		session.getTransaction().commit();
 		logger.debug(" up dated inserting to database ");
 
 		session.close();
-
-		return user;
+		
+		if(user1==null) {
+			System.out.println("~!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!~~~~~~~~~~~~~~~~~ user in get email by id is null");
+		}
+		return user1;
 	}
 
 }
