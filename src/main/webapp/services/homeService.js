@@ -17,6 +17,19 @@ ToDo.factory('getAllNotesService',function($http,$location){
 			}		
 		})
 	}
+	
+	notes.sharedNotes=function() {
+		
+		console.log("inside getAllNotes")
+		return $http({
+			method :'get',
+			url :'/ToDoNotesApp/getAllSharedNotes',
+			headers :{
+				'token' : localStorage.getItem('token')
+			}		
+		})
+	
+	}
 	notes.users=function() {
 		console.log("inside get user ")
 		return $http({
@@ -30,8 +43,19 @@ ToDo.factory('getAllNotesService',function($http,$location){
 	notes.getOwner=function(note) {
 		console.log("inside get owner ")
 		return $http({
-			method :'get',
+			method :'POST',
 			url :'/ToDoNotesApp/getOwner',
+			headers :{
+						'token' : localStorage.getItem('token')
+					},
+		   data:note
+		})
+	}
+	notes.getAllUsers=function(note) {
+		console.log("inside all owner ")
+		return $http({
+			method :'POST',
+			url :'/ToDoNotesApp/sharedNotesUser',
 			headers :{
 						'token' : localStorage.getItem('token')
 					},

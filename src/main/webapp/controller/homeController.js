@@ -26,18 +26,9 @@ var ToDo=angular.module('ToDo');
 		  
 	  })
 	  }
-	  $scope.getOwner = function(note) {
-			var token = localStorage.getItem('token');
-			var users = getAllNotesService.getOwner( token, note);
-			users.then(function(response) {
-
-				$scope.owner = response.data;
-				console.log("inside get owner"+owner)
-
-			}, function(response) {
-				$scope.users = {};
-			});
-		}
+	  
+	
+	
 	  var getNotes=function(){
 	    	
 		  var Notes = getAllNotesService.Notes();
@@ -326,6 +317,32 @@ var ToDo=angular.module('ToDo');
 		    	var token= localStorage.getItem('token');
 
 		      console.log("Token of colaborator note is : "+token);
+		      
+		        var getOwner = function() {
+		        	console.log("in side get owner controller");
+					var noteOwner = getAllNotesService.getOwner(dataToPass);
+					noteOwner.then(function(response) {
+
+						$scope.owner = response.data;
+						console.log("inside get owner"+$scope.owner);
+
+					}, function(response) {
+						console.log("fail");
+					});
+				}
+		        getOwner();
+		        var getAllUsers=function() {
+		  		  var token =localStorage.getItem('token');
+		  		  var allSharedUsers=getAllNotesService.getAllUsers(dataToPass);
+		  		  allSharedUsers.then(function(response) {
+
+		  				$scope.allUsers = response.data;
+		  				console.log("inside get all users"+$scope.allUsers);
+		  			}, function(response) {
+		  				console.log("fail");
+		  			});
+		  	  }
+		       getAllUsers();
 		      // Saving the edited note
 		      	$scope.sharColleborator = function() {
 		    	
@@ -357,6 +374,8 @@ var ToDo=angular.module('ToDo');
 		      }
 		
 		}
+		
+		
 		getUser();
 		getNotes();	
   });

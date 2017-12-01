@@ -11,4 +11,5 @@ public interface INotesService {
 	public boolean updateNote(Notes notes,long userId);
 	public boolean deleteNote(Notes notes ,long userId);
 	public Notes getNote(long noteId);
+	public List<Notes> getSharedNotes(long id);
 }

@@ -59,13 +59,19 @@ public class NotesServiceImpl implements INotesService {
 			return false;
 		}
 		notes.setUser(notesObject.getUser());
-		return iNotesDAO.updateNote(notes);
+		notes.setSharedUser(notesObject.getSharedUser());
+		return iNotesDAO.updateNote(notesObject);
 
 	}
 	@Override
 	public Notes getNote(long noteId) {
 
 		return iNotesDAO.getNote(noteId);
+	}
+	@Override
+	public List<Notes> getSharedNotes(long id) {
+		List<Notes> sharedNotes=iNotesDAO.getSharedNotes(id);
+		return sharedNotes;
 	}
 	
 
