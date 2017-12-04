@@ -1,7 +1,6 @@
 package com.bridgeit.toDoNotes.DAO;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -21,8 +20,7 @@ public class NotesDAOImpl implements INotesDAO {
 
 	@Autowired
 	private   SessionFactory sessionFactory;
-	@Autowired
-	private IUserDAO iUserDAO;
+	
 
 
 	@SuppressWarnings({ "rawtypes", "unchecked", "deprecation" })
@@ -122,7 +120,7 @@ public class NotesDAOImpl implements INotesDAO {
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public Notes getNoteById( long noteId,long userId) {
+	public Notes getNoteById( long noteId) {
 		
 		if(sessionFactory == null) {
 
@@ -211,6 +209,7 @@ public class NotesDAOImpl implements INotesDAO {
 		return  note;	
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public List<Notes> getSharedNotes(long id) {
 		
@@ -239,5 +238,47 @@ public class NotesDAOImpl implements INotesDAO {
 		session.getTransaction().commit();
 		session.close();
 		
-		return  notes1;		}
+		return  notes1;	
+		
+	}
+
+	@Override
+	public boolean getNoteSharedUser() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Notes getsharedUserNoteById(long noteId, long userId) {
+
+		if(sessionFactory == null) {
+
+			logger.fatal("connection incorrect");
+
+			return null;
+		} 
+		logger.debug("connection correct");
+
+		Session session=sessionFactory.openSession();
+		logger.debug("session is opened ");
+		
+		session.beginTransaction();
+		logger.debug("transaction is opened ");
+		
+		logger.debug(userId);
+		Query query=session.createQuery("from Notes where noteId =:noteId and sharedUser=:sharedUser");
+		
+		query.setParameter("noteId",noteId);
+		query.setParameter("sharedUser",userId);
+
+
+		Notes note=(Notes) query.uniqueResult();
+
+		session.getTransaction().commit();
+		session.close();
+
+		
+		return note;
+	}
 }

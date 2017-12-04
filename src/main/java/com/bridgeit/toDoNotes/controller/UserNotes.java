@@ -111,7 +111,7 @@ System.out.println("@@@@@@##############@@@@@@@@@@@@####################"+user1)
 
 		User user1=userServiceImpl.getUserById(id);
 		if(user1!=null) {
-		Notes userNote=iNotesService.getNoteById(id, note.getNoteId());
+		Notes userNote=iNotesService.getNoteById( note.getNoteId());
 		User owner=userNote.getUser();
 		return ResponseEntity.ok(owner);
 		}
@@ -130,7 +130,7 @@ System.out.println("@@@@@@##############@@@@@@@@@@@@####################"+user1)
 		User user1=userServiceImpl.getUserById(id);
 		if(user1!=null) {
 			
-			Notes userNote=iNotesService.getNoteById(id, note.getNoteId());
+			Notes userNote=iNotesService.getNoteById(note.getNoteId());
 			if(userNote==null) {
 				return null;
 			}
@@ -148,7 +148,7 @@ System.out.println("@@@@@@##############@@@@@@@@@@@@####################"+user1)
 	public ResponseEntity<List<Notes>> getAllNotes(HttpServletRequest request) {
 
 		Enumeration<String> headerNames = request.getHeaderNames();
-		String token=null; ;
+		String token=null; 
 
 		while (headerNames.hasMoreElements()) {
 
@@ -193,7 +193,7 @@ System.out.println("@@@@@@##############@@@@@@@@@@@@####################"+user1)
 		}
 
 		long id=Long.valueOf(iTokens.verifyToken(token));
-		Notes notes =iNotesService.getNoteById(id,noteId);
+		Notes notes =iNotesService.getNoteById(noteId);
 
 		if(notes!=null) {
 
@@ -230,7 +230,7 @@ System.out.println("@@@@@@##############@@@@@@@@@@@@####################"+user1)
 
 		long userId=Long.valueOf(iTokens.verifyToken(token));
 
-		if( iNotesService.deleteNote(notes ,userId) ) {
+		if( iNotesService.deleteNote(notes ) ) {
 
 			myResponse.setResponseMessage("Note deleted succesfully");
 			
@@ -261,7 +261,11 @@ System.out.println("@@@@@@##############@@@@@@@@@@@@####################"+user1)
 		}
 		long userId=Long.valueOf(iTokens.verifyToken(token));
 		
-		boolean isUpdated=iNotesService.updateNote(notes ,userId);
+		Notes notesObject= iNotesService.getNoteById(notes.getNoteId());
+		
+		notes.setSharedUser(notesObject.getSharedUser());
+		notes.setUser(notesObject.getUser());
+		boolean isUpdated=iNotesService.updateNote(notes );
 
 		if(isUpdated) {
 
@@ -289,7 +293,7 @@ System.out.println("@@@@@@##############@@@@@@@@@@@@####################"+user1)
 		Notes oldNote=iNotesService.getNote(notes.getNoteId());
 		User sharedUser=userServiceImpl.getUserByEmailId(request.getHeader("emailId"));
 		oldNote.getSharedUser().add(sharedUser);
-		if(iNotesService.updateNote(oldNote, oldNote.getUser().getUserId())) {
+		if(iNotesService.updateNote(oldNote)) {
 			return  ResponseEntity.status(HttpStatus.ACCEPTED).body(myResponse);
 
 		}

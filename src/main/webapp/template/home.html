@@ -112,7 +112,7 @@
 		<h4>Pinned</h4>
 	<div layout="row" layout-wrap flex id="sortable">
 	
- <div ng-repeat="note in notes | filter:{pinned:true,trash:false,archive:false}" ng-mouseover="mouse=true" ng-mouseleave="mouse=false"  id="note-scope" flex="30">
+ <div ng-repeat="note in notes | filter:{pinned:true,trash:false,archive:false}" flex="{{view}}" ng-mouseover="mouse=true" ng-mouseleave="mouse=false"  id="note-scope">
 	
 	<md-card class="card" id="float" ng-style="{'background-color' : note.color}" >
 	        <md-card-title>
@@ -224,7 +224,7 @@
 
 	<div  layout="row" layout-wrap flex id="sortable">
       
-       <div ng-repeat="note in notes | filter:{trash:false,archive:false,pinned:false}" flex="{{ notesView==='list' ? 90 : 30}}" ng-mouseover="mouse=true" ng-mouseleave="mouse=false">
+       <div ng-repeat="note in notes | filter:{trash:false,archive:false,pinned:false}" flex="{{view}}" ng-mouseover="mouse=true" ng-mouseleave="mouse=false">
 	 	
 	 	  <md-card flex ng-mouseover="x=true" ng-mouseleave="x=false" ng-style="{'background-color' : note.color}">
 			

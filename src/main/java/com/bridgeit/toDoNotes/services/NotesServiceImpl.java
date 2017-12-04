@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.bridgeit.toDoNotes.DAO.INotesDAO;
 import com.bridgeit.toDoNotes.model.Notes;
-import com.bridgeit.toDoNotes.model.User;
 
 public class NotesServiceImpl implements INotesService {
 
@@ -33,9 +32,9 @@ public class NotesServiceImpl implements INotesService {
 
 
 	@Override
-	public boolean deleteNote(Notes notes, long userId) {
+	public boolean deleteNote(Notes notes) {
 	
-		if(iNotesDAO.getNoteById(notes.getNoteId(), userId)==null) {
+		if(iNotesDAO.getNoteById(notes.getNoteId())==null) {
 			return false;
 		}
 		
@@ -44,23 +43,40 @@ public class NotesServiceImpl implements INotesService {
 
 
 	@Override
-	public Notes getNoteById(long userId, long noteId) {
+	public Notes getNoteById(long noteId) {
 
-		return iNotesDAO.getNoteById(noteId,userId);
+		return iNotesDAO.getNoteById(noteId);
 
 	}
 
 	@Override
-	public boolean updateNote(Notes notes,long userId) {
-		Notes notesObject= iNotesDAO.getNoteById(notes.getNoteId(), userId);
+	public boolean updateNote(Notes notes) {
+		/*Notes notesObject= iNotesDAO.getNoteById(notes.getNoteId(), userId);
 		
 		if(notesObject==null) {
-
-			return false;
+			Notes sharedUserNote=iNotesDAO.getsharedUserNoteById(notes.getNoteId(), userId);
+			if(sharedUserNote==null) {
+				return false;
+			}
+			System.out.println("@@@@@@@@@@@@@@@@@@@@@@00000000shared user "+sharedUserNote.getSharedUser());
+			notes.setSharedUser(sharedUserNote.getSharedUser());
+			notes.setUser(sharedUserNote.getUser());
+			
+			return iNotesDAO.updateNote(notes);
 		}
-		notes.setUser(notesObject.getUser());
+		System.out.println("########################################## owner "+notesObject.getSharedUser());
+		
+		if(notesObject.getSharedUser()==null) {
+		
+			notes.setUser(notesObject.getUser());
+			return iNotesDAO.updateNote(notes);
+		
+		}
+		
 		notes.setSharedUser(notesObject.getSharedUser());
-		return iNotesDAO.updateNote(notesObject);
+		notes.setUser(notesObject.getUser());*/
+		
+		return iNotesDAO.updateNote(notes);
 
 	}
 	@Override

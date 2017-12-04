@@ -41,9 +41,18 @@ var ToDo=angular.module('ToDo', ['ui.router','ngMaterial', 'ngAnimate', 'ngAria'
 							templateUrl : 'template/trashNotes.html',
 							controller:'homeController'
 							
-						});$stateProvider.state('archiveNotes', {
+						});
+						
+						$stateProvider.state('archiveNotes', {
 							url : '/archiveNotes',
 							templateUrl : 'template/archiveNotes.html',
+							controller:'homeController'
+							
+						});
+						
+						$stateProvider.state('search', {
+							url : '/search',
+							templateUrl : 'template/search.html',
 							controller:'homeController'
 							
 						});

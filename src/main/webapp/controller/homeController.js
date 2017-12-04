@@ -15,6 +15,35 @@ var ToDo=angular.module('ToDo');
 		 // $scope.notes = getAllNotesService.notes;
 		 		  $mdSidenav('left').toggle();
 	  }
+	  
+	  $scope.view=function(){
+			var view = localStorage.getItem('view');
+			if(view=='list'){
+				$scope.displayView('list');
+			}else{
+				$scope.displayView('grid');
+			}
+			
+		}
+		
+		$scope.displayView=function(type){
+			
+			if(type=='list'){
+				$scope.view='90';
+				$scope.width='100%';
+				$scope.list=false
+				$scope.grid=true
+				localStorage.setItem('view','list');
+			}else{
+				$scope.view='30';
+				$scope.width='260px';
+				$scope.grid=false;
+				$scope.list=true;
+				localStorage.setItem('view','grid');
+			}
+				
+		}
+	  
 	  var getUser=function() {
 		  var user= getAllNotesService.users();
 		  user.then(function(response) {
@@ -28,7 +57,7 @@ var ToDo=angular.module('ToDo');
 	  }
 	  
 	
-	
+	var search=[];
 	  var getNotes=function(){
 	    	
 		  var Notes = getAllNotesService.Notes();
@@ -37,6 +66,11 @@ var ToDo=angular.module('ToDo');
 				$scope.notes = response.data;
 				getAllNotesService.notes = response.data;
 				console.log(Notes)
+				for (var i = 0; i < response.data.length; i++) {
+    			 
+						search.push(response.data[i]);
+    		
+				}
 				 $interval(function () {
 				       
 			          for (var i = 0; i < response.data.length; i++) {
@@ -57,7 +91,32 @@ var ToDo=angular.module('ToDo');
 
 	    }
 	
-		
+	  $scope.querySearch=function(searchText){
+			var arr=[];
+			j=-1;
+			for(var i=0;i<search.length;i++)
+				{
+					if(searchText==search[i].title){
+						j++;
+						arr[j]=search[i];
+					}
+				}
+			console.log(arr);
+			return arr;
+		 }
+		 
+	      $scope.searchTextChange = function(searchText) {
+	          var arr = [];
+	          var j = -1;
+	          for(var i=0; i<search.length; i++) {
+	            if(search[i].title == searchText)  {
+	              ++j;
+	              arr[j] = search[i];
+	            }
+	          }
+	          $scope.searchResultNotes = arr;
+	        }
+	  
 	  $scope.addNote = function() {
 	    	$scope.note = {};
 	    	var token = localStorage.getItem('token');
@@ -289,7 +348,7 @@ var ToDo=angular.module('ToDo');
 		  		notes.then(function(response){
 					console.log(" updated success")
 					  getNotes();
-					$mdDialog.cancel();
+					$mdDialog.hide();
 					$state.reload();
 
 				},function(response){
