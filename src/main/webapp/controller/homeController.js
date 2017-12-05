@@ -3,7 +3,7 @@
  */
 var ToDo=angular.module('ToDo');
 
-  ToDo.controller('homeController', function($scope, $timeout, $mdSidenav,getAllNotesService,$location,$mdDialog,$state,mdcDateTimeDialog,toastr,$filter,$interval,$http) {
+  ToDo.controller('homeController', function($scope, $timeout, $mdSidenav,getAllNotesService,$location,$mdDialog,$state,mdcDateTimeDialog,toastr,$filter,$interval,$http,Upload, $base64,$q) {
 	  
 	  $scope.displayDiv=false;
 		$scope.show=function(){
@@ -116,7 +116,52 @@ var ToDo=angular.module('ToDo');
 	          }
 	          $scope.searchResultNotes = arr;
 	        }
+	      $scope.openImageUploader = function(type) {
+				$scope.type = type;
+				$('#image').trigger('click');
+				return false;
+			}
+			
+			
+			$scope.stepsModel = [];
+
+			$scope.imageUpload = function(element){
+			    var reader = new FileReader();
+			    console.log("ele"+element);
+			    reader.onload = $scope.imageIsLoaded;
+			    reader.readAsDataURL(element.files[0]);
+			    console.log(element.files[0]);
+			}
+		
+			$scope.imageIsLoaded = function(e){
+			    $scope.$apply(function() {
+			        $scope.stepsModel.push(e.target.result);
+			        console.log(e.target.result);
+			        var imageSrc=e.target.result;
+			        $scope.type.image=imageSrc;
+			        console.log(e.target.result);
+			        console.log(imageSrc);
+			        update($scope.type);
+			    });
+			};
 	  
+			
+			var update=function(note){
+		    	var token = localStorage.getItem('token');
+
+				var notes = getAllNotesService.updateNote(token,note);
+				notes.then(function(response) {
+
+					getNotes();
+
+				}, function(response) {
+
+					getNotes();
+					console.log(response);
+					$scope.error = response.data.responseMessage;
+
+				});
+			}	
 	  $scope.addNote = function() {
 	    	$scope.note = {};
 	    	var token = localStorage.getItem('token');

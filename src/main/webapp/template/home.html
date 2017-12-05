@@ -49,11 +49,11 @@
 			             <!--    </md-menu-item>
 			              </md-menu-content> -->
 			       </md-menu>
-			       <md-button style="min-width:25px;padding:5px">
-		       				<md-icon md-svg-src="images/icons/share.svg" ng-click="" style="width:21px"></md-icon>
-							<md-tooltip md-direction="bottom">share</md-tooltip>
-							
-	        	   </md-button>
+			      <!-- 	<md-button style="min-width:25px;padding:5px" ng-click="collaborator(note, $event)" >
+		       				<md-icon md-svg-src="images/icons/share.svg" ng-show="mouse" style="width:21px"></md-icon>
+		       				<md-tooltip md-direction="bottom"> share </md-tooltip>	       		
+		       				
+	        			</md-button> -->
    				   <md-buttton>
    				   		<md-icon md-svg-icon="images/icons/addImage.svg"></md-icon>
    				   		<md-tooltip md-direction="bottom">Add Image</md-tooltip>
@@ -168,10 +168,10 @@
 			              </md-menu-content>
 			       </md-menu>
 	        			
-	        			<md-button style="min-width:25px;padding:5px">
-		       				<md-icon md-svg-src="images/icons/share.svg" ng-show="mouse" ng-click="" style="width:21px"></md-icon>
-	        			    <md-tooltip md-direction="bottom">share</md-tooltip>	       		
-	        				
+	        				<md-button style="min-width:25px;padding:5px" ng-click="collaborator(note, $event)"  ng-show="mouse">
+		       				<md-icon md-svg-src="images/icons/share.svg" ng-show="mouse" style="width:21px"></md-icon>
+		       				<md-tooltip md-direction="bottom"> share </md-tooltip>	       		
+		       				
 	        			</md-button>
 	        			<color-picker ng-show="mouse" style="border:none;display:inline-block;vertical-align:middle; padding:5px" value ="cardColor" color="color" options="colors" on-color-changed="colorChanged(newColor, oldColor,note)"></color-picker>	 
 
@@ -227,10 +227,11 @@
        <div ng-repeat="note in notes | filter:{trash:false,archive:false,pinned:false}" flex="{{view}}" ng-mouseover="mouse=true" ng-mouseleave="mouse=false">
 	 	
 	 	  <md-card flex ng-mouseover="x=true" ng-mouseleave="x=false" ng-style="{'background-color' : note.color}">
+						 	       	<div ng-if="note.image"><img ng-src={{note.image}} style="width: 95%;padding-left: 5px;"></div>
 			
 			 <md-card-title style="background-color:weight">
 			 
-			 	 <md-card-title-text  ng-click="updateNote(note,$event)"> <br><br>
+			 	 <md-card-title-text  ng-click="updateNote(note,$event)" style=""outline: none;"> <br><br>
 				 
 			        <div>
 			          	<div ng-bind-html="note.title" id="title"  style="word-break: break-all;border:0px;outline:0px">{{note.title}}</div>
@@ -289,6 +290,13 @@
 	        				<md-icon md-svg-src="images/icons/archive.svg" aria-lable="archive note"></md-icon>
 	        			    <md-tooltip md-direction="bottom"> archive </md-tooltip>	       		
 	        				
+	        			</md-button>
+	        			<md-button   ng-show="mouse"  style="min-width:25px;padding:5px" aria-label="Add Image" ng-click="openImageUploader(note)">
+	
+						<input ng-show="false" id="image" type='file' ng-model-instant ng-model="file" onchange="angular.element(this).scope().imageUpload(this)" />
+  						
+	        			<md-tooltip md-direction="bottom">Add Image</md-tooltip>
+	        				<md-icon md-svg-src="images/icons/addImage.svg" ng-click="" style="width:21px;"></md-icon>
 	        			</md-button>
 	        			<color-picker ng-show="mouse" style="border:none;display:inline-block;vertical-align:middle; padding:5px" value ="cardColor" color="color" options="colors" on-color-changed="colorChanged(newColor, oldColor,note)"></color-picker>	 
 	        			

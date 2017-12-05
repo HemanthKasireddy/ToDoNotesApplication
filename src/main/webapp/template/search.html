@@ -172,7 +172,7 @@
 			
 	        </md-card-title>
 			<md-card-actions>
-	        <md-panel>
+	       	   <md-panel>
 		      <!-- <p id="lastDiv" class="icon">
 		       	 <md-button style="min-width:25px";>	
 		       	 <md-menu>
@@ -252,35 +252,38 @@
 			                  <md-button ng-click="">Pick Date and Time</md-button>
 			                </md-menu-item>
 			              </md-menu-content> -->
-			               <md-menu-content>
+			        <md-menu-content>
 			                <button class="md-raised md-primary md-button md-ink-ripple" type="button"
 							ng-click="displayDialog(note)">Date Picker</button>
-			              </md-menu-content>
-			       </md-menu>
+			        </md-menu-content>
+			      
+			     </md-menu>
 	        			
-        			<md-button style="min-width:25px;padding:5px" ng-click="collaborator(note, $event)"  ng-show="mouse">
-		       				<md-icon md-svg-src="images/icons/share.svg" ng-show="mouse" style="width:21px"></md-icon>
-		       				<md-tooltip md-direction="bottom"> share </md-tooltip>	       		
+        		 <md-button style="min-width:25px;padding:5px" ng-click="collaborator(note, $event)"  ng-show="mouse">
+		       		 
+		       		 <md-icon md-svg-src="images/icons/share.svg" ng-show="mouse" style="width:21px"></md-icon>
+		       		 <md-tooltip md-direction="bottom"> share </md-tooltip>	       		
 		       				
-	        			</md-button>
+	        	 </md-button>
 	        			<!-- <md-button style="min-width:25px;padding:5px">
 		       				<md-icon md-svg-src="images/icons/colorpicker.svg" ng-show="mouse" ng-click="" style="width:21px"></md-icon>
 	        			</md-button> -->
-	        			<md-button style="min-width:25px;padding:5px" ng-show="mouse" ng-click="archiveNote(note,true)">
-	        				<md-icon md-svg-src="images/icons/archive.svg" aria-lable="archive note"></md-icon>
-	        			    <md-tooltip md-direction="bottom"> archive </md-tooltip>	       		
+	        	<md-button style="min-width:25px;padding:5px" ng-show="mouse" ng-click="archiveNote(note,true)">
 	        				
-	        			</md-button>
-	        			<color-picker ng-show="mouse" style="border:none;display:inline-block;vertical-align:middle; padding:5px" value ="cardColor" color="color" options="colors" on-color-changed="colorChanged(newColor, oldColor,note)"></color-picker>	 
+	        		<md-icon md-svg-src="images/icons/archive.svg" aria-lable="archive note"></md-icon>
+	        		<md-tooltip md-direction="bottom"> archive </md-tooltip>	       		
+	        				
+	        	</md-button>
+	        	<color-picker ng-show="mouse" style="border:none;display:inline-block;vertical-align:middle; padding:5px" value ="cardColor" color="color" options="colors" on-color-changed="colorChanged(newColor, oldColor,note)"></color-picker>	 
 	        			
-			          <md-menu md-offset="0 -7">
+			       <md-menu md-offset="0 -7">
           						
-          			<md-button  class="md-icon-button" ng-show="mouse" ng-click="$mdMenu.open($event)" >
+          			 <md-button  class="md-icon-button" ng-show="mouse" ng-click="$mdMenu.open($event)" >
           			
           				 <md-icon md-svg-icon="images/icons/more.svg"> </md-icon>
 						 <md-tooltip md-direction="bottom"> more </md-tooltip>	       		
 						 
-						</md-button>
+					</md-button>
          						
          			<md-menu-content>
            					    	
@@ -297,10 +300,10 @@
          				</md-menu-item>
          		     </md-menu-content>
        						
-       			 </md-menu>			  
+       			  </md-menu>			  
        			 </p>
-		          </md-panel>
-	        	</md-card-actions>
+		        </md-panel>
+	        </md-card-actions>
     	</div>
   	</div>
 </div>

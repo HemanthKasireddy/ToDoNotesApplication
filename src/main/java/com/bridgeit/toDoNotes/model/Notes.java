@@ -35,6 +35,7 @@ public class Notes {
 	private String color;
 	private Date reminder;
 	private List<User> sharedUser;
+	private String image;
 	public Notes() {}
 	
 	public Notes(long  noteId,String title,String content, User user){
@@ -133,12 +134,6 @@ public class Notes {
 		this.reminder = reminder;
 	}
 	
-
-	@Override
-	public String toString() {
-		return "Notes [noteId=" + noteId + ", title=" + title + ", content=" + content + ", createdTime=" + createdTime
-				+ ", updatedTime=" + updatedTime + ", user=" + user + "]";
-	}
 	@JsonProperty(access=Access.WRITE_ONLY)
 	@ManyToMany(fetch=FetchType.EAGER)
 	@Column(name="sharedNoteId")
@@ -148,6 +143,21 @@ public class Notes {
 
 	public void setSharedUser(List<User> sharedUser) {
 		this.sharedUser = sharedUser;
+	}
+
+	@Column(name="image",columnDefinition="mediumblob")
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+	
+	@Override
+	public String toString() {
+		return "Notes [noteId=" + noteId + ", title=" + title + ", content=" + content + ", createdTime=" + createdTime
+				+ ", updatedTime=" + updatedTime + ", user=" + user + "]";
 	}
 	
 }

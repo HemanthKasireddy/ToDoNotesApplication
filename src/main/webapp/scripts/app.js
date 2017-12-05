@@ -2,7 +2,7 @@
  * 
  */
 
-var ToDo=angular.module('ToDo', ['ui.router','ngMaterial', 'ngAnimate', 'ngAria', 'ngSanitize','tb-color-picker','ngMaterialDatePicker','toastr','ngLetterAvatar'])
+var ToDo=angular.module('ToDo', ['ui.router','ngMaterial', 'ngAnimate', 'ngAria', 'ngSanitize','tb-color-picker','ngMaterialDatePicker','toastr','ngLetterAvatar','ngFileUpload','base64'])
 				.config(['$stateProvider','$urlRouterProvider',function($stateProvider,$urlRouterProvider) {
 					
 						$stateProvider.state('login',{

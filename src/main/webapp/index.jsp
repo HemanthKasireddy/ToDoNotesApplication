@@ -71,4 +71,21 @@
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 	
-</html>
+	<!-- 	image upload js -->
+	<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"> </script>
+ 
+	
+	<script src="bower_components/ng-file-upload-bower-master/FileAPI.js" type="text/javascript">
+	</script>
+	<script src="bower_components/ng-file-upload-bower-master/ng-file-upload.js" type="text/javascript">
+	</script>
+	<script src="bower_components/ng-file-upload-bower-master/ng-file-upload-all.js" type="text/javascript">
+	</script>
+	<script src="bower_components/ng-file-upload-bower-master/ng-file-upload-shim.js" type="text/javascript">
+	</script>
+	<script src="bower_components/angular-base64-master/angular-base64.js" type="text/javascript">
+	</script>
+	<script src="bower_components/angular-base64-master/index.js" type="text/javascript">
+	</script>
+ </html>
