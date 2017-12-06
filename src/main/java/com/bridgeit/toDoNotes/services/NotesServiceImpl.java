@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.bridgeit.toDoNotes.DAO.INotesDAO;
+import com.bridgeit.toDoNotes.model.Label;
 import com.bridgeit.toDoNotes.model.Notes;
 
 public class NotesServiceImpl implements INotesService {
@@ -88,6 +89,12 @@ public class NotesServiceImpl implements INotesService {
 	public List<Notes> getSharedNotes(long id) {
 		List<Notes> sharedNotes=iNotesDAO.getSharedNotes(id);
 		return sharedNotes;
+	}
+	@Override
+	public long createLabel(Label label) {
+
+		
+		return iNotesDAO.createLabel(label);
 	}
 	
 

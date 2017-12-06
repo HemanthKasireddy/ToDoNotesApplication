@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bridgeit.toDoNotes.model.Label;
 import com.bridgeit.toDoNotes.model.Notes;
 import com.bridgeit.toDoNotes.model.Response;
 import com.bridgeit.toDoNotes.model.User;
@@ -298,31 +299,37 @@ System.out.println("@@@@@@##############@@@@@@@@@@@@####################"+user1)
 
 		}
 		return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(myResponse);
-
-/*
-		while (headerNames.hasMoreElements()) {
-
-			String key = (String) headerNames.nextElement();
-			if(key.equals("token")) {
-
-				token = request.getHeader(key);
-				break;
-			}
-		}
-		long userId=Long.valueOf(iTokens.verifyToken(token));
-		SharedNotes sharedNotes=new SharedNotes();
-		if(userId<0) {
-			myResponse.setResponseMessage("Token is expired");
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(myResponse);
-		}
-		
-		
-		List<User> sharedUser=notes.getSharedUser();
-	
-		sharedNotes.setNoteId(notes.getNoteId());
-		sharedNotes.setShareuserId(sharedUser.getUserId());
-		myResponse.setResponseMessage("Shared success");
-		return ResponseEntity.status(HttpStatus.CREATED).body(myResponse);*/
 		
 	}
+	
+	@RequestMapping(value = "/addLabel", method = RequestMethod.POST)
+	public ResponseEntity<Response> createLabel(@RequestBody Label label, HttpServletRequest request) {
+		Response myResponse=new Response();
+	
+
+		String token = request.getHeader("token");
+
+
+		long id=Long.valueOf(iTokens.verifyToken(token));
+
+		User user=userServiceImpl.getUserById(id);
+		if(id<0) {
+			myResponse.setResponseMessage("User is not exist");
+
+		    return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(myResponse);		
+		}
+		long responseCount=iNotesService.createLabel(label);
+
+		if(responseCount<0) {
+			logger.error("Note is not created ");
+			myResponse.setResponseMessage("Note is not created");
+
+			   return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(myResponse);
+		} 
+		logger.error("Note is  created ");
+		myResponse.setResponseMessage("Note created succesfully");
+		return ResponseEntity.status(HttpStatus.CREATED).body(myResponse);
+	}
+
+	
 }

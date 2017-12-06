@@ -89,7 +89,8 @@ ToDo.factory('getAllNotesService',function($http,$location){
 		        		'emailId':email
 					 }
 		
-		})
+		})WARN  PageNotFound - No mapping found for HTTP request with URI [/ToDoNotesApp/addLabel] in DispatcherServlet with name 'spring-dispatcher'
+
 	}*/
 	notes.addNote=function(token,note){
 		console.log("Inside add note");
@@ -198,6 +199,22 @@ ToDo.factory('getAllNotesService',function($http,$location){
 
 		        'token': token
 		    }
+		});
+	}
+	notes.addLabel=function(label) {
+		console.log("insidde add label")
+		return $http({
+			
+			 method: 'POST',
+
+			    url: '/ToDoNotesApp/addLabel',
+
+			    data:label,
+
+			    headers: {
+
+			         'token': localStorage.getItem('token')
+			    }
 		});
 	}
 	notes.updateNote=function(token,note){

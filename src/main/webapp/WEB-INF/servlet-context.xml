@@ -46,6 +46,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springf
 			<list>
 				<value>com.bridgeit.toDoNotes.model.User</value>
 				<value>com.bridgeit.toDoNotes.model.Notes</value>
+				<value>com.bridgeit.toDoNotes.model.Label</value>
+				
 		</list>
 		</property>
 

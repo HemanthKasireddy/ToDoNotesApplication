@@ -2,7 +2,9 @@ package com.bridgeit.toDoNotes.model;
 
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -36,6 +39,8 @@ public class Notes {
 	private Date reminder;
 	private List<User> sharedUser;
 	private String image;
+	
+	private Set<Label> labels = new HashSet<Label>();
 	public Notes() {}
 	
 	public Notes(long  noteId,String title,String content, User user){
@@ -158,6 +163,16 @@ public class Notes {
 	public String toString() {
 		return "Notes [noteId=" + noteId + ", title=" + title + ", content=" + content + ", createdTime=" + createdTime
 				+ ", updatedTime=" + updatedTime + ", user=" + user + "]";
+	}
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "note_label", joinColumns = { @JoinColumn(name = "noteId") })
+	public Set<Label> getLabels() {
+		return labels;
+	}
+
+	public void setLabels(Set<Label> labels) {
+		this.labels = labels;
 	}
 	
 }

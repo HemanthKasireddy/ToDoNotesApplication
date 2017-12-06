@@ -20,11 +20,16 @@
         
       </md-list-item>
       
-      <md-list-item >
-       
-          Labels
-   
-     
+       <p> Labels</p>
+         		<div ng-repeat="label in user.labels">
+  				<md-icon md-svg-src="images/icons/label.svg" ></md-icon>
+  					{{label.name}}	<md-icon class="labelIcon" md-svg-src="images/clear.svg" ng-click="deleteLabel(label)"></md-icon>
+  				</div>
+  		<md-list-item ng-click="createLabel($event,user)">
+  				
+  				Create new label
+  		</md-list-item>
+
       </md-list-item>
       <md-list-item  ui-sref="trashNotes">
             Trash

@@ -1,6 +1,7 @@
 package com.bridgeit.toDoNotes.services;
 import java.util.List;
 
+import com.bridgeit.toDoNotes.model.Label;
 import com.bridgeit.toDoNotes.model.Notes;
 public interface INotesService {
 	
@@ -11,4 +12,5 @@ public interface INotesService {
 	public boolean deleteNote(Notes notes );
 	public Notes getNote(long noteId);
 	public List<Notes> getSharedNotes(long id);
+	public long createLabel(Label label);
 }

@@ -2,6 +2,7 @@ package com.bridgeit.toDoNotes.DAO;
 
 import java.util.List;
 
+import com.bridgeit.toDoNotes.model.Label;
 import com.bridgeit.toDoNotes.model.Notes;
 
 public interface INotesDAO {
@@ -14,4 +15,5 @@ public interface INotesDAO {
 	public List<Notes> getSharedNotes(long id);
 	public boolean getNoteSharedUser();
 	public Notes getsharedUserNoteById(long noteId, long userId);
+	public long createLabel(Label label);
 }

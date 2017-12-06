@@ -11,6 +11,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bridgeit.toDoNotes.model.Label;
 import com.bridgeit.toDoNotes.model.Notes;
 import com.bridgeit.toDoNotes.model.User;
 
@@ -281,4 +282,29 @@ public class NotesDAOImpl implements INotesDAO {
 		
 		return note;
 	}
+
+	@Override
+	public long createLabel(Label labels) {
+		if(sessionFactory == null) {
+
+			logger.fatal("connection incorrect");
+
+			return -1;
+		} 
+		logger.debug("connection correct");
+
+		Session session=sessionFactory.openSession();
+		logger.debug("session is opened ");
+		
+		session.beginTransaction();
+		logger.debug("transaction is opened ");
+
+		long id=(Long) session.save(labels);
+		
+		session.getTransaction().commit();
+		logger.debug("inserting to database ");
+
+		session.close();
+		
+		return id;	}
 }

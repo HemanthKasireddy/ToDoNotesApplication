@@ -43,6 +43,39 @@ var ToDo=angular.module('ToDo');
 			}
 				
 		}
+		
+		  $scope.createLabel=function($event,user){
+	    	  $mdDialog.show({
+	    		  locals: {
+	    		        dataToPass: user  // Pass the note data into dialog box
+	    		      },
+	    		 templateUrl : 'template/createLabel.html',
+	    		 parent : angular.element(document.body),
+	    		 targetEvent : event,
+	    		 clickOutsideToClose: true,
+	    		 controllerAs : 'controller',
+	    		 controller : createLabelController
+	    	  });
+	      }
+	      
+	      function createLabelController($scope,dataToPass){
+	    	  $scope.userlabel=dataToPass;
+	    	  $scope.createLabel=function(labelName){
+	    		  console.log(labelName)
+	    		  $scope.label={};
+	    		  $scope.label.labelName=labelName;
+	    		  
+	    		  var addLabel=  getAllNotesService.addLabel($scope.label)
+	    		  addLabel.then(function(response){
+	    			  console.log("label added successfully");
+	    			  $state.reload();
+	    			  $mdDialog.hide();
+	    		  },function(response){
+	    			  console.log("label failed to add")
+	    		  })
+	    	  }
+	      }
+
 	  
 	  var getUser=function() {
 		  var user= getAllNotesService.users();
