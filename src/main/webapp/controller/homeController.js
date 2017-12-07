@@ -75,6 +75,40 @@ var ToDo=angular.module('ToDo');
 	    		  })
 	    	  }
 	      }
+	      
+	      $scope.labelToggle=function(note,label){
+	    	  console.log("clicked");
+	    	  
+	    	  var index = -1;
+	    	  var i=0;
+				for ( i = 0; i<note.labels.length;i++) {
+					if (note.labels[i].name === label.name) {
+						index = i;
+						break;
+					}
+				}
+
+				if (index == -1) {
+					note.labels.push(label);
+					update(note);
+				} else {
+					note.labels.splice(index, 1);
+					update(note);
+				}
+	    	  
+	      }
+	      
+			$scope.checkboxCheck = function(note, label) {
+				
+				var labels = note.labels;
+				for (var i = 0; i < labels.length; i++) {
+					if (labels[i].name === label.name) {
+						return true;
+					}
+				}
+				return false;
+			}
+
 
 	  
 	  var getUser=function() {
@@ -371,7 +405,8 @@ var ToDo=angular.module('ToDo');
 	  }
 	  $scope.restoreNote=function(note) {
 		  note.trash=0;
-		  console.log(note);
+		  console.log(note);</md-card>
+
 		  var token= localStorage.getItem('token');
 		  var notes = getAllNotesService.restoreNote(token,note);
 		  notes.then(function(response) {

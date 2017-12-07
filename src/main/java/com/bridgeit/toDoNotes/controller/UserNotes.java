@@ -302,7 +302,7 @@ System.out.println("@@@@@@##############@@@@@@@@@@@@####################"+user1)
 		
 	}
 	
-	@RequestMapping(value = "/addLabel", method = RequestMethod.POST)
+	@RequestMapping(value = "addLabel", method = RequestMethod.POST)
 	public ResponseEntity<Response> createLabel(@RequestBody Label label, HttpServletRequest request) {
 		Response myResponse=new Response();
 	
@@ -318,6 +318,7 @@ System.out.println("@@@@@@##############@@@@@@@@@@@@####################"+user1)
 
 		    return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(myResponse);		
 		}
+		label.setUser(user);
 		long responseCount=iNotesService.createLabel(label);
 
 		if(responseCount<0) {

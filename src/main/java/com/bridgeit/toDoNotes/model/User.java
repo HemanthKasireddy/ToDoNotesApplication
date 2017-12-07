@@ -1,9 +1,12 @@
 package com.bridgeit.toDoNotes.model;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,7 +27,8 @@ public class User {
 	private boolean activated;
 	private String picUrl;
 	private List<Notes> notes;
-	
+	private Set<Label> labels = new HashSet<Label>();
+
 	public User() {}
 	
 	@Id
@@ -109,5 +113,13 @@ public class User {
 	public String toString() {
 		return "User [userId=" + userId + ", name=" + name + ", email=" + email + ", mobileNumber=" + mobileNumber
 				+ ", password=" + password + ", confirmPassword=" + confirmPassword + ", activated=" + activated + "]";
+	}
+	@OneToMany(mappedBy = "user",fetch=FetchType.EAGER)
+	public Set<Label> getLabels() {
+		return labels;
+	}
+
+	public void setLabels(Set<Label> labels) {
+		this.labels = labels;
 	}
 }
