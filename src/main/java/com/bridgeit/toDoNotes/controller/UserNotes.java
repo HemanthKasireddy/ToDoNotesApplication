@@ -283,27 +283,36 @@ System.out.println("@@@@@@##############@@@@@@@@@@@@####################"+user1)
 	@RequestMapping(value="/collaborator", method= RequestMethod.POST)
 	public ResponseEntity<Response> collaborator(@RequestBody Notes notes,HttpServletRequest request) {
 	logger.debug("@@@@@@@@@@@@@@@@@@!!!!!!!!!!!!!!!!!!##############!!!!!!!!!!!# inside colleborator api");
+		
 		Response myResponse=new Response();
+		
 		String token=request.getHeader("token"); 
 		long userId=Long.valueOf(iTokens.verifyToken(token));
 
 		if(userId<0) {
+			
 			myResponse.setResponseMessage("Token is expired");
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(myResponse);
+		
 		}
+		
 		Notes oldNote=iNotesService.getNote(notes.getNoteId());
 		User sharedUser=userServiceImpl.getUserByEmailId(request.getHeader("emailId"));
 		oldNote.getSharedUser().add(sharedUser);
+		
 		if(iNotesService.updateNote(oldNote)) {
+		
 			return  ResponseEntity.status(HttpStatus.ACCEPTED).body(myResponse);
 
 		}
+		
 		return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(myResponse);
 		
 	}
 	
 	@RequestMapping(value = "addLabel", method = RequestMethod.POST)
 	public ResponseEntity<Response> createLabel(@RequestBody Label label, HttpServletRequest request) {
+		
 		Response myResponse=new Response();
 	
 
@@ -313,23 +322,60 @@ System.out.println("@@@@@@##############@@@@@@@@@@@@####################"+user1)
 		long id=Long.valueOf(iTokens.verifyToken(token));
 
 		User user=userServiceImpl.getUserById(id);
-		if(id<0) {
+		if(user==null) {
 			myResponse.setResponseMessage("User is not exist");
 
 		    return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(myResponse);		
 		}
+		
 		label.setUser(user);
+		
 		long responseCount=iNotesService.createLabel(label);
 
 		if(responseCount<0) {
-			logger.error("Note is not created ");
-			myResponse.setResponseMessage("Note is not created");
+			
+			logger.error("Label is not created ");
+			myResponse.setResponseMessage("Label is not created");
 
 			   return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(myResponse);
 		} 
-		logger.error("Note is  created ");
-		myResponse.setResponseMessage("Note created succesfully");
+		
+		logger.error("Label is  created ");
+		myResponse.setResponseMessage("Label created succesfully");
 		return ResponseEntity.status(HttpStatus.CREATED).body(myResponse);
+	}
+	
+	@RequestMapping(value = "deleteLabel", method = RequestMethod.POST)
+	public ResponseEntity<Response> deleteLabel(@RequestBody Label label, HttpServletRequest request) {
+		
+		Response myResponse=new Response();
+
+		String token = request.getHeader("token");
+
+
+		long id=Long.valueOf(iTokens.verifyToken(token));
+
+		User user=userServiceImpl.getUserById(id);
+		if(user==null) {
+			myResponse.setResponseMessage("User is not exist");
+
+		    return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(myResponse);		
+		}
+		
+		boolean status=iNotesService.deleteLabel(label);
+		
+		if(!status) {
+			logger.error("Note is not deleted ");
+			myResponse.setResponseMessage("Note is not deleted");
+
+			   return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(myResponse);
+		} 
+		
+		logger.error("Note is  deleted ");
+		myResponse.setResponseMessage("Note deleted succesfully");
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(myResponse);
+	
 	}
 
 	

@@ -16,4 +16,5 @@ public interface INotesDAO {
 	public boolean getNoteSharedUser();
 	public Notes getsharedUserNoteById(long noteId, long userId);
 	public long createLabel(Label label);
+	public boolean deleteLabel(Label label);
 }

@@ -82,7 +82,7 @@ var ToDo=angular.module('ToDo');
 	    	  var index = -1;
 	    	  var i=0;
 				for ( i = 0; i<note.labels.length;i++) {
-					if (note.labels[i].name === label.name) {
+					if (note.labels[i].labelName === label.labelName) {
 						index = i;
 						break;
 					}
@@ -102,13 +102,22 @@ var ToDo=angular.module('ToDo');
 				
 				var labels = note.labels;
 				for (var i = 0; i < labels.length; i++) {
-					if (labels[i].name === label.name) {
+					if (labels[i].labelName === label.labelName) {
 						return true;
 					}
 				}
 				return false;
 			}
 
+			$scope.deleteLabel=function(label){
+				var deletelabel = getAllNotesService.deleteLabels(label);
+				deletelabel.then(function(response){
+					console.log("Label deleted successfully");
+					$state.reload();
+				},function(response){
+					console.log("label deletion failed")
+				})
+			}
 
 	  
 	  var getUser=function() {
@@ -405,7 +414,7 @@ var ToDo=angular.module('ToDo');
 	  }
 	  $scope.restoreNote=function(note) {
 		  note.trash=0;
-		  console.log(note);</md-card>
+		  console.log(note);
 
 		  var token= localStorage.getItem('token');
 		  var notes = getAllNotesService.restoreNote(token,note);

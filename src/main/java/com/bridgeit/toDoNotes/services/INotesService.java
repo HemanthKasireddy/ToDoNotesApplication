@@ -13,4 +13,5 @@ public interface INotesService {
 	public Notes getNote(long noteId);
 	public List<Notes> getSharedNotes(long id);
 	public long createLabel(Label label);
+	public boolean deleteLabel(Label label);
 }

@@ -306,5 +306,43 @@ public class NotesDAOImpl implements INotesDAO {
 
 		session.close();
 		
-		return id;	}
+		return id;	
+		
+	}
+	@Override
+	public boolean deleteLabel(Label label) {
+		
+		if(sessionFactory == null) {
+
+			logger.fatal("connection incorrect");
+
+			return false;
+		} 
+		logger.debug("connection correct");
+		try {
+		Session session=sessionFactory.openSession();
+		logger.debug("session is opened ");
+		
+		session.beginTransaction();
+		logger.debug("transaction is opened ");
+
+		session.delete(label);
+		logger.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2"+label.getNotes().toString());
+		for(Notes note : label.getNotes())
+		{
+			note.getLabels().remove(label);
+		}
+		label.getNotes().clear();
+		session.getTransaction().commit();
+		logger.debug("inserting to database ");
+
+		session.close();
+		return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Error while deleting label ");
+			return false ;
+		}
+	}
+
 }

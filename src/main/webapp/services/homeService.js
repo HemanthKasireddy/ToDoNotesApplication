@@ -217,6 +217,18 @@ ToDo.factory('getAllNotesService',function($http,$location){
 			    }
 		});
 	}
+	notes.deleteLabels=function(label) {
+		console.log("inside delete label")
+		return $http({
+			
+			method:'POST',
+			url:'/ToDoNotesApp/deleteLabel',
+			data:label,
+			headers:{
+				'token':localStorage.getItem('token')
+			}
+		});
+	}
 	notes.updateNote=function(token,note){
 		//console.log("Inside restore note");
 		//console.log(note);

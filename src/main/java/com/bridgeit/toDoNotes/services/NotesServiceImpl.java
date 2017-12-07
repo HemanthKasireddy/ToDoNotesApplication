@@ -96,6 +96,11 @@ public class NotesServiceImpl implements INotesService {
 		
 		return iNotesDAO.createLabel(label);
 	}
+	@Override
+	public boolean deleteLabel(Label label) {
+		// TODO Auto-generated method stub
+		return iNotesDAO.deleteLabel(label);
+	}
 	
 
 }
