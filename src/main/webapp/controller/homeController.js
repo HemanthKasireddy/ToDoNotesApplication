@@ -118,6 +118,15 @@ var ToDo=angular.module('ToDo');
 					console.log("label deletion failed")
 				})
 			}
+			$scope.removeLabel=function(note,label){
+				console.log("inside remove label");
+				var removeLabel = note.labels;
+				console.log("inside remove label"+removeLabel);
+				var indexOfLabel = removeLabel.indexOf(label);
+				removeLabel.splice(indexOfLabel, 1);
+				update(note);
+				
+			}
 
 	  
 	  var getUser=function() {
@@ -433,8 +442,84 @@ var ToDo=angular.module('ToDo');
 		}
 		
 
+		$scope.updateEditedNote = function(note, event) {
+		    // Show dialog box for edit a note
+			console.log("inside updatenote");
+			console.log(note);
+		    $mdDialog.show({
+		      locals: {
+		        dataToPass: note,
+		        pin:$scope.pinned,
+		        changeImage : $scope.openImageUploader,
+		        deletelebel : $scope.removeLabel,
+		        collaborator : $scope.collaborators,
+		        colors :$scope.colors,
+		        changeColor :$scope.colorChanged,
+		        modelDeleteNote :$scope.deleteNote,
+		        modelMakeCopy : $scope.makeCopy,
+		        user : $scope.user,
+		        labelAdd:$scope.labelToggle,
+		        checkbox:$scope.checkboxCheck,
+		        mdArchive:$scope.archive
+		        
+		      },
+		      templateUrl: 'template/updateNote.html',
+		      parent: angular.element(document.body),
+		      targetEvent: event,
+		      clickOutsideToClose: true,
+		      controllerAs: 'controller',
+		      controller: mdDialogController
+		    });
+		}
 		
-		$scope.updateNote = function(note, event) {
+		function mdDialogController($scope, $state, dataToPass,pin,changeImage,deletelebel,collaborator,colors,changeColor,modelDeleteNote,modelMakeCopy,user
+				,labelAdd,checkbox,mdArchive) {
+		      
+			
+			  $scope.mdDialogData = dataToPass;
+		      $scope.colors = colors;
+		      $scope.user=user;
+		      /*=========================Remove Image=============*/
+		      
+		      $scope.removeImage=function(mdDialogData){
+		    	  mdDialogData.image=null;
+		    	  update(mdDialogData);
+		      }
+		      // Saving the edited note
+		      	$scope.saveUpdatedNote = function() {
+		    	/*var url = 'update';*/
+		    	
+		    	console.log(dataToPass);
+		    	
+		    	dataToPass.title = document.getElementById("updatedNoteTitle").innerHTML;
+		    	
+		    	dataToPass.body = document.getElementById("updatedNoteBody").innerHTML;
+		    	
+		    	
+		    	update(dataToPass);
+				$mdDialog.hide();
+
+		      }
+		      	
+		     /* $scope.pinned=function(note,status){
+		    	  note.pinned= status;
+		    	  update(note);
+		      }*/
+		      
+		      	$scope.pinned=pin;
+		  		$scope.openImageUploader = changeImage;
+		  		$scope.removeLabel = deletelebel;
+		  		$scope.collaborators = collaborator;
+		  		$scope.colorChanged=changeColor;
+		  		$scope.deleteNote=modelDeleteNote;
+		  		$scope.makeCopy=modelMakeCopy;
+		        $scope.labelToggle=labelAdd
+		        $scope.checkboxCheck=checkbox;
+		        $scope.archive=mdArchive; 
+		        
+		       
+		}
+		/*$scope.updateNote = function(note, event) {
 			console.log('calling');
 			note.updatedTime=new Date();
 		    $mdDialog.show({
@@ -478,7 +563,7 @@ var ToDo=angular.module('ToDo');
 				});
 		      }
 		
-		}
+		}*/
 		
 		$scope.collaborator = function(note, event) {
 		    $mdDialog.show({
@@ -553,9 +638,18 @@ var ToDo=angular.module('ToDo');
 		   		 			    	
 		    	
 		      }
-		
+		      	
 		}
-		
+		$scope.removeCollaborator=function(user){
+			
+			
+			var array = dataToPass.collaborator;
+			console.log("Inside remove collaborator",dataToPass);
+			var index = array.indexOf(user);
+			array.splice(index, 1);
+			update(dataToPass);
+			$mdDialog.hide();
+		}
 		
 		getUser();
 		getNotes();	

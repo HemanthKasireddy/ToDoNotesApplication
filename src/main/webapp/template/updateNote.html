@@ -1,6 +1,21 @@
 <md-dialog flex="45" style="background-color:{{mdDialogData.color}}">
  	<md-dialog-content>
+		 		<!-- <span ng-if="mdDialogData.pinned">
+ 			<img ng-src="images/icons/pin.svg" class="pin" ng-click="pinned(mdDialogData,false)"/>
+ 		</span>
+ 		<span ng-if="!mdDialogData.pinned">
+ 		<md-icon  md-svg-src="images/icons/unpin.svg" class="pin" ng-click="pinned(mdDialogData,true)"></md-icon>
+ 		</span>	 -->
+		 <div ng-if="mdDialogData.image"><img ng-src={{mdDialogData.image}} style="width: 100%;">		
 		
+			<span>
+			
+			<md-button class="removeImage" ng-click="removeImage(mdDialogData)" aria-label="Delete">
+			<md-tooltip md-direction="bottom">Delete</md-tooltip>
+			<md-icon md-svg-src="images/icons/delete.svg" aria-lable="Delete"></md-icon>
+			</md-button>
+			</span>
+		</div>
 		<md-input-container class="md-block">
 
   				<div ng-bind-html="mdDialogData.title"  id="updatedNoteTitle" contenteditable="true" contenteditabledata  aria-multiline="true" role="textbox" style="background-color: rgb(250, 250, 250); outline:none; background-color:{{mdDialogData.color}}"  ></div>

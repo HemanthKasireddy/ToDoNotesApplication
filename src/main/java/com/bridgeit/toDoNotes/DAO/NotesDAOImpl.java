@@ -327,12 +327,7 @@ public class NotesDAOImpl implements INotesDAO {
 		logger.debug("transaction is opened ");
 
 		session.delete(label);
-		logger.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2"+label.getNotes().toString());
-		for(Notes note : label.getNotes())
-		{
-			note.getLabels().remove(label);
-		}
-		label.getNotes().clear();
+
 		session.getTransaction().commit();
 		logger.debug("inserting to database ");
 
