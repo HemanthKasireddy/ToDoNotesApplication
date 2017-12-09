@@ -217,6 +217,17 @@ ToDo.factory('getAllNotesService',function($http,$location){
 			    }
 		});
 	}
+	notes.removeCollaborator=function(user) {
+		console.log("inside remove colloborator")
+		return $http({
+			method:'POST',
+			url:'/ToDoNotesApp/removeSharedUser',
+			data:user,
+			headers:{
+				'token':localStorage.getItem('token')
+			}
+		})
+	}
 	notes.deleteLabels=function(label) {
 		console.log("inside delete label")
 		return $http({
@@ -230,8 +241,8 @@ ToDo.factory('getAllNotesService',function($http,$location){
 		});
 	}
 	notes.updateNote=function(token,note){
-		//console.log("Inside restore note");
-		//console.log(note);
+		console.log("Inside update  note");
+		console.log(note);
 
 		return $http({
 

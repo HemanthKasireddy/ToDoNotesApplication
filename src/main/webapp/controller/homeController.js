@@ -232,8 +232,9 @@ var ToDo=angular.module('ToDo');
 	  
 			
 			var update=function(note){
+				console.log("updated note is "+note)
 		    	var token = localStorage.getItem('token');
-
+		    	console.log("inside update note ")
 				var notes = getAllNotesService.updateNote(token,note);
 				notes.then(function(response) {
 
@@ -638,18 +639,19 @@ var ToDo=angular.module('ToDo');
 		   		 			    	
 		    	
 		      }
+		      	$scope.removeCollaborator=function(user){
+					console.log()
+					var array = dataToPass.sharedUser;
+					
+					console.log("Inside remove collaborator",dataToPass);
+					var index = array.indexOf(user);
+					array.splice(index, 1);
+					update(dataToPass);
+					$mdDialog.hide();
+				}
 		      	
 		}
-		$scope.removeCollaborator=function(user){
-			
-			
-			var array = dataToPass.collaborator;
-			console.log("Inside remove collaborator",dataToPass);
-			var index = array.indexOf(user);
-			array.splice(index, 1);
-			update(dataToPass);
-			$mdDialog.hide();
-		}
+		
 		
 		getUser();
 		getNotes();	

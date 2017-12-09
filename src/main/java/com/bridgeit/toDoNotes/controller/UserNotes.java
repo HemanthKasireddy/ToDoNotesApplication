@@ -144,7 +144,29 @@ System.out.println("@@@@@@##############@@@@@@@@@@@@####################"+user1)
 		}
 	}
 	
-	
+/*	@RequestMapping(value = "/sharedNotesUser", method = RequestMethod.POST)
+	public ResponseEntity<List<User>> removeSharedNotesUser(@RequestBody User user, HttpServletRequest request){
+		
+		logger.debug("********************************* inside ge tshared note user");
+		String token=request.getHeader("token");
+		long id=Long.valueOf(iTokens.verifyToken(token));
+
+		User user1=userServiceImpl.getUserById(id);
+		if(user1!=null) {
+			
+			Notes userNote=iNotesService.getNoteById(note.getNoteId());
+			if(userNote==null) {
+				return null;
+			}
+		
+			List<User> owner=userNote.getSharedUser();
+		return ResponseEntity.ok(owner);
+		}
+		else{
+			return ResponseEntity.ok(null);
+		}
+	}
+	*/
 	@RequestMapping(value="/getAllNotes",method=RequestMethod.GET)
 	public ResponseEntity<List<Notes>> getAllNotes(HttpServletRequest request) {
 

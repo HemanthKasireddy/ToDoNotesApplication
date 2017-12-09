@@ -139,7 +139,6 @@ public class Notes {
 		this.reminder = reminder;
 	}
 	
-	@JsonProperty(access=Access.WRITE_ONLY)
 	@ManyToMany(fetch=FetchType.EAGER)
 	@Column(name="sharedNoteId")
 	public List<User> getSharedUser() {
