@@ -1,0 +1,21 @@
+<md-dialog flex="25" style="background-color:white;">
+
+	<md-card-content>
+			<h4>Edit labels</h4>
+		<md-input-container>
+			<label>Enter label name</label>
+			<input ng-model="labelName"/>
+		</md-input-container><br>
+				<div ng-repeat="labels in userlabel.labels">
+  				<md-icon md-svg-src="images/icons/label.svg" ></md-icon>
+  					
+  					<!-- <div ng-bind-html="" ng-show="true"> style="word-break: break-all;border:0px;outline:0px"> -->
+  					{{labels.labelName}}
+  					
+  				</div>
+		<md-divider></md-divider>
+		<md-card-action>
+			<md-button md-autofocus flex class="md-primary" ng-click="createLabel(labelName)">Done</md-button>
+		</md-card-action>
+	</md-card-content>
+</md-dialog>
