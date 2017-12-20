@@ -1,5 +1,0 @@
-@charset "UTF-8";
-[contenteditable=true]:empty:before{
-  content: attr(placeholder);
-  display: block;
-}
