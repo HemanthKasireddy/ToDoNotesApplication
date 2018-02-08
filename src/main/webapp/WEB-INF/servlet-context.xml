@@ -64,8 +64,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springf
     
     <property name="host" value="smtp.gmail.com" />
     <property name="port" value="587" />
-    <property name="username" value="hemanthreddytestapp@gmail.com" />
-    <property name="password" value="AppTestOnly" />
+    <property name="username" value="@@@@@@@@@@@" />
+    <property name="password" value="********" />
  
     <property name="javaMailProperties">
 
